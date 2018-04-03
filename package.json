@@ -1,0 +1,7 @@
+{
+  "name": "Demo_Market_Mornitor",
+  "private": true,
+  "dependencies": {
+    "d3-svg-legend": "^2.25.5"
+  }
+}

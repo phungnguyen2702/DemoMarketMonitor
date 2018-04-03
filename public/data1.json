@@ -1,0 +1,6 @@
+[{"Date": "2016-06-14", "Categories": [{ "Name": "Category1", "Value": 368 }, { "Name": "Category2", "Value": 321 }], "LineCategory": [{ "Name": "Line1", "Value": 300}]},
+{"Date": "2016-06-15", "Categories": [{ "Name": "Category1", "Value": 521 }, { "Name": "Category2", "Value": 123 }], "LineCategory": [{ "Name": "Line1", "Value": 260}]},
+{"Date": "2016-06-17", "Categories": [{ "Name": "Category1", "Value": 368 }, { "Name": "Category2", "Value": 236 }], "LineCategory": [{ "Name": "Line1", "Value": 250}]},
+{"Date": "2016-06-18", "Categories": [{ "Name": "Category1", "Value": 423 }, { "Name": "Category2", "Value": 330 }], "LineCategory": [{ "Name": "Line1", "Value": 260}]},
+{"Date": "2016-06-19", "Categories": [{ "Name": "Category1", "Value": 601 }, { "Name": "Category2", "Value": 583 }], "LineCategory": [{ "Name": "Line1", "Value": 500}]},
+{"Date": "2016-06-20", "Categories": [{ "Name": "Category1", "Value": 412 }, { "Name": "Category2", "Value": 461 }], "LineCategory": [{ "Name": "Line1", "Value": 350}]}]

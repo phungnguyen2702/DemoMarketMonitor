@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<%= link_to  "Home", root_path, class: "linkx" %>
+<style>
+  .linkx{
+            font-size: 20px;
+            
+      }
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#chart {
+  width: 500px;
+  height: 700px;
+  position: absolute;
+}
+
+.d3-tip {
+  line-height: 1;
+  font: 14px sans-serif;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: rgb(185, 185, 185);
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+  }
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+.grid path {
+      stroke-width: 0;
+} 
+</style>
+
+<svg id="chart"></svg>
+<script>
+function getTextWidth(text, fontSize, fontName) {
+      c = document.createElement("canvas");
+      ctx = c.getContext("2d");
+      ctx.font = fontSize + ' ' + fontName;
+      return ctx.measureText(text).width;
+      }
+var margin = {top: 40, right: 40, bottom: 40, left: 50},
+    dim = Math.min(parseInt(d3.select("#chart").style("width")), parseInt(d3.select("#chart").style("height"))),
+    width = dim - margin.left - margin.right,
+    height = dim - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var r = d3.scale.linear()
+    .range([7, 18]);
+
+var color = d3.scale.ordinal()
+      .range(["#35978f", "#374649", "#fd625e"]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var svg = d3.select("#chart")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var dollarFormatter = d3.format(",.0f");
+
+var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<div><span>Category:</span> <span style='color:white'>" + d.Category + "</span></div>" +
+              "<div><span>Sub-Category:</span> <span style='color:white'>" + d.SubCategory + "</span></div>" +
+             "<div><span>Total Cost:</span> <span style='color:white'>" + "$"+ dollarFormatter(d.TotalValue) + "</span></div>";
+    })
+
+svg.call(tip);
+
+  function make_y_axis() {        
+    return d3.svg.axis()
+      .scale(y)
+      .orient("left")
+      .ticks(5)
+    }
+        
+  function make_x_axis() {        
+    return d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+      .ticks(5)
+    }
+d3.csv("/giniDummy.csv", function(error, data) {
+  if (error) throw error;
+
+  var subset = data.filter(function(el){return el});
+  var dataLegend = d3.map(data, function(d){return d.Category;}).keys();
+  subset.forEach(function(d) {
+    d.ProductConcentration = +d.ProductConcentration;
+    d.CustomerConcentration = +d.CustomerConcentration;
+    d.TotalValue = +d.TotalValue;
+  });
+
+  x.domain([0, 1]);
+  y.domain([0, 1]);
+  r.domain(d3.extent (subset, function (d)  {return d.TotalValue;}));
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("font-size","20px")
+      .style("fill","gray")
+      .attr("class", "label")
+      .attr("x", width-120)
+      .attr("y", 33)
+      .style("text-anchor", "end")
+      .text("Product Concentration");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -120)
+      .attr("font-size","20px")
+      .style("fill","gray")
+      .attr("y", -40)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Customer Concentration")
+
+  svg.selectAll(".dot")
+      .data(subset)
+      .enter()
+      .append("circle")
+      .attr("r", 7)
+      .attr("cx", function(d) { return x(d.ProductConcentration); })
+      .attr("cy", function(d) { return y(d.CustomerConcentration); })
+      .style("fill", function(d) { return color(d.Category); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+
+  svg.selectAll(".dot")
+      .data(subset)
+      .enter()
+      .append("text")
+      .attr("x", function(d) { return x(d.ProductConcentration); })
+      .attr("y", function(d) { return y(d.CustomerConcentration); })
+      .text(function(d) {
+        return d.TotalValue+" ";
+      })
+      .attr("font-size", "11px")
+      .attr("fill", "#777777");
+
+
+var textWidthHolder = 0;
+ var LegendHolder = svg.append("g").attr("class", "legendHolder");
+      var legend = LegendHolder.selectAll(".legend")
+      .data(dataLegend)
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function (d, i) { return "translate(0," +( -20 )+ ")"; })
+      .each(function (d,i) {
+            //  Legend Symbols
+            d3.select(this).append("circle")
+                  .attr("width", function () { return 18 })
+                  .attr("cx", function (b) {
+                        left = (i+1) * 15 + i * 18 + i * 55 + 10;
+                        if(i==2)
+                          left+=10;
+                        return left;
+                  })
+                  .attr("cy", 9)
+                  .attr("r", 7)
+                  .style("fill", function (b) { return color(d)});
+            //  Legend Text
+
+            d3.select(this).append("text")
+            .attr("x", function (b) {
+                  left = (i+1) * 15 + (i+1) * 18 + (i + 1) * 5 + textWidthHolder;
+                  return left;
+            })
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text(d);
+            textWidthHolder += getTextWidth(d, "10px", "calibri");
+      });
+
+      // Legend Placing
+
+      d3.select(".legendHolder").attr("transform", function (d) {
+      thisWidth = d3.select(this).node().getBBox().width;
+      return "translate(" + ((width) / 2 - thisWidth / 2) + ",0)";
+      })
+
+});
+
+function resize() {
+
+  var dim = Math.min(parseInt(d3.select("#chart").style("width")), parseInt(d3.select("#chart").style("height"))),
+  width = dim - margin.left - margin.right,
+  height = dim - margin.top - margin.bottom;
+
+  console.log(dim);
+
+  // Update the range of the scale with new width/height
+  x.range([0, width]);
+  y.range([height, 0]);
+
+  // Update the axis and text with the new scale
+  svg.select('.x.axis')
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+
+  svg.select('.x.axis').select('.label')
+      .attr("x",width);
+
+  svg.select('.y.axis')
+    .call(yAxis);
+
+  svg.append("g")         
+    .attr("class", "grid")
+    .call(make_y_axis()
+          .tickSize(-width, 0, 0)
+          .tickFormat("")
+    )
+    svg.append("g")         
+    .attr("class", "grid")
+    .call(make_x_axis()
+          .tickSize(height, 0, 0)
+          .tickFormat("")
+    )
+  // Update the tick marks
+  xAxis.ticks(dim / 75);
+  yAxis.ticks(dim / 75);
+
+  // Update the circles
+  r.range([dim / 90, dim / 35])
+
+  svg.selectAll('.dot')
+    .attr("r",7)
+    .attr("cx", function(d) { return x(d.ProductConcentration); })
+    .attr("cy", function(d) { return y(d.CustomerConcentration); })
+}
+
+d3.select(window).on('resize', resize);
+resize();
+
+</script>
