@@ -215,7 +215,6 @@ d3.json("/data1.json", function(error,Data){
                   .tickSize(-width, 0, 0)
                   .tickFormat("")
             )
-
       svg.append("g")
             .attr("class", "y axis")
             .call(yAxis)
@@ -285,20 +284,20 @@ d3.json("/data1.json", function(error,Data){
             .data(lineData)
             .enter().append("g")
             .attr("class", "line")
-            .each(function (d) {
+            .each(function (d,i) {
                   Name=d[0].Name
                   d3.select(this).append("path")
                   .attr("d", function (b) { return line(b) })
                   .style({ "stroke-width": "2px", "fill": "none" })
                   .style("stroke", LineColor(Name))
-                  .on("mouseover", function(d) {		
-                        div.transition()		
+                  .on("mouseover", function(d) {
+                     div.transition()		
                         .duration(200)		
                         .style("opacity", .9);		
-                        div.html(d.Date + "<br/>"  + d.Value)	
+                     div.html(d.Date + "<br/>"  + d.Value)	
                         .style("left", (d3.event.pageX) + "px")		
-                        .style("top", (d3.event.pageY - 28) + "px");	
-                        })					
+                        .style("top", (d3.event.pageY - 28) + "px");
+                  })				
                   .on("mouseout", function(d) {		
                         div.transition()		
                         .duration(500)		
