@@ -3,11 +3,12 @@
 <%= link_to  "Home", root_path, class: "linkx" %>
 <style>
   .linkx{
-            font-size: 20px;
+            font-size: 17px;
             
       }
 body {
-  font: 10px sans-serif;
+  font: 10px;
+  font-family: "Segoe UI";
 }
 
 .axis path,
@@ -22,33 +23,9 @@ body {
   height: 700px;
   position: absolute;
 }
-
-.d3-tip {
-  line-height: 1;
-  font: 14px sans-serif;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: rgb(185, 185, 185);
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-    box-sizing: border-box;
-    display: inline;
-    font-size: 10px;
-    width: 100%;
-    line-height: 1;
-    color: rgba(0, 0, 0, 0.8);
-    content: "\25BC";
-    position: absolute;
-    text-align: center;
-  }
-
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
+.legend{
+  font-size: 12px;
+  font-family: "Segoe UI";
 }
 .grid .tick {
     stroke: lightgrey;
@@ -57,6 +34,18 @@ body {
 .grid path {
       stroke-width: 0;
 } 
+.toolTip {
+      font-family: "Segoe UI";
+      position: absolute;
+      display: none;
+      width: auto;
+      height: auto;
+      content: "\25BC";
+      background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+      color: white;
+      font-size: 12px; 
+      padding: 5px;
+}
 </style>
 
 <svg id="chart"></svg>
@@ -68,7 +57,9 @@ function getTextWidth(text, fontSize, fontName) {
       return ctx.measureText(text).width;
       }
 var margin = {top: 40, right: 40, bottom: 40, left: 50},
-    dim = Math.min(parseInt(d3.select("#chart").style("width")), parseInt(d3.select("#chart").style("height"))),
+    dim = Math.min(parseInt(d3.select("#chart")
+          .style("width")), parseInt(d3.select("#chart")
+          .style("height"))),
     width = dim - margin.left - margin.right,
     height = dim - margin.top - margin.bottom;
 
@@ -100,16 +91,9 @@ var svg = d3.select("#chart")
 
 var dollarFormatter = d3.format(",.0f");
 
-var tip = d3.tip()
-    .attr('class', 'd3-tip')
-    .offset([-10, 0])
-    .html(function(d) {
-      return "<div><span>Category:</span> <span style='color:white'>" + d.Category + "</span></div>" +
-              "<div><span>Sub-Category:</span> <span style='color:white'>" + d.SubCategory + "</span></div>" +
-             "<div><span>Total Cost:</span> <span style='color:white'>" + "$"+ dollarFormatter(d.TotalValue) + "</span></div>";
-    })
-
-svg.call(tip);
+var divTooltip = d3.select("body")
+                .append("div")
+                .attr("class", "toolTip");
 
   function make_y_axis() {        
     return d3.svg.axis()
@@ -127,7 +111,7 @@ svg.call(tip);
 d3.csv("/giniDummy.csv", function(error, data) {
   if (error) throw error;
 
-  var subset = data.filter(function(el){return el});
+  var subset = data.filter(function(el){return el.Metric==="Quantity"});
   var dataLegend = d3.map(data, function(d){return d.Category;}).keys();
   subset.forEach(function(d) {
     d.ProductConcentration = +d.ProductConcentration;
@@ -144,7 +128,6 @@ d3.csv("/giniDummy.csv", function(error, data) {
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
     .append("text")
-      .attr("font-size","20px")
       .style("fill","gray")
       .attr("class", "label")
       .attr("x", width-120)
@@ -159,9 +142,8 @@ d3.csv("/giniDummy.csv", function(error, data) {
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
       .attr("x", -120)
-      .attr("font-size","20px")
       .style("fill","gray")
-      .attr("y", -40)
+      .attr("y", -45)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("Customer Concentration")
@@ -174,8 +156,17 @@ d3.csv("/giniDummy.csv", function(error, data) {
       .attr("cx", function(d) { return x(d.ProductConcentration); })
       .attr("cy", function(d) { return y(d.CustomerConcentration); })
       .style("fill", function(d) { return color(d.Category); })
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide);
+      .on("mousemove", function (d) {
+          divTooltip.style("left", d3.event.pageX + 10 + "px");
+          divTooltip.style("top", d3.event.pageY - 25 + "px");
+          divTooltip.style("display", "inline-block");
+          divTooltip.html("<div>Category: " + d.Category + "</div>" +
+              "<div>Sub-Category: " + d.SubCategory + "</div>" +
+             "<div>Total Cost: " + "$"+ dollarFormatter(d.TotalValue) + "</div>");
+      })
+      .on("mouseout", function (d) {
+            divTooltip.style("display", "none");
+      });
 
   svg.selectAll(".dot")
       .data(subset)
@@ -186,7 +177,7 @@ d3.csv("/giniDummy.csv", function(error, data) {
       .text(function(d) {
         return d.TotalValue+" ";
       })
-      .attr("font-size", "11px")
+      .attr("font-size", "13px")
       .attr("fill", "#777777");
 
 
@@ -196,6 +187,15 @@ var textWidthHolder = 0;
       .data(dataLegend)
       .enter().append("g")
       .attr("class", "legend")
+      .on("mousemove", function (d) {
+          divTooltip.style("left", d3.event.pageX + 10 + "px");
+          divTooltip.style("top", d3.event.pageY - 25 + "px");
+          divTooltip.style("display", "inline-block");
+          divTooltip.html("<div>" + d + "</div>");
+      })
+      .on("mouseout", function (d) {
+            divTooltip.style("display", "none");
+      })
       .attr("transform", function (d, i) { return "translate(0," +( -20 )+ ")"; })
       .each(function (d,i) {
             //  Legend Symbols
@@ -211,21 +211,19 @@ var textWidthHolder = 0;
                   .attr("r", 7)
                   .style("fill", function (b) { return color(d)});
             //  Legend Text
-
             d3.select(this).append("text")
             .attr("x", function (b) {
                   left = (i+1) * 15 + (i+1) * 18 + (i + 1) * 5 + textWidthHolder;
                   return left;
             })
             .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "start")
+              .attr("dy", ".35em")
+              .style("text-anchor", "start")
             .text(d);
-            textWidthHolder += getTextWidth(d, "10px", "calibri");
+            textWidthHolder += getTextWidth(d, "10px", "Segoe UI");
       });
 
       // Legend Placing
-
       d3.select(".legendHolder").attr("transform", function (d) {
       thisWidth = d3.select(this).node().getBBox().width;
       return "translate(" + ((width) / 2 - thisWidth / 2) + ",0)";

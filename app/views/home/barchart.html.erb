@@ -3,6 +3,7 @@
       .legend {
             border-radius: 50%;
       }
+
       .linkx {
             font-size: 20px;
       }
@@ -11,10 +12,11 @@
             font: 10px sans-serif;
       }
 
-      .axis path, .axis line {
+      .axis path,
+      .axis line {
             fill: none;
             shape-rendering: crispEdges;
-      } 
+      }
 
       .textbar {
             line-height: 1;
@@ -22,344 +24,461 @@
             padding: 12px;
             fill: #777777;
       }
-      
+
       .x.axis path {
             display: none;
       }
+
       /*svg {overflow-x: scroll; width: 200px;}*/
+
       .grid .tick {
             stroke: lightgrey;
             opacity: 0.7;
       }
+
       .grid path {
             stroke-width: 0;
-      } 
+      }
+
       svg text.label {
             fill: black;
             background: lightgrey;
-            font: 15px;  
+            font: 15px;
             font-weight: 400;
             text-anchor: middle;
       }
+
       .toolTip {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        position: absolute;
-        display: none;
-        width: auto;
-        height: auto;
-        content: "\25BC";
-        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-        color: white;
-        font: 12px sans-serif;
-        padding: 5px;
-    }
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            position: absolute;
+            display: none;
+            width: auto;
+            height: auto;
+            content: "\25BC";
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+            color: white;
+            font: 12px;
+            padding: 5px;
+      }
 </style>
 <script>
       function getTextWidth(text, fontSize, fontName) {
-      c = document.createElement("canvas");
-      ctx = c.getContext("2d");
-      ctx.font = fontSize + ' ' + fontName;
-      return ctx.measureText(text).width;
+            c = document.createElement("canvas");
+            ctx = c.getContext("2d");
+            ctx.font = fontSize + ' ' + fontName;
+            return ctx.measureText(text).width;
       }
 
       function DataSegregator(array, on) {
-      var SegData;
-      OrdinalPositionHolder = {
-            valueOf: function () {
-                  thisObject = this;
-                  keys = Object.keys(thisObject);
-                  keys.splice(keys.indexOf("valueOf"), 1);
-                  keys.splice(keys.indexOf("keys"), 1);
-                  return keys.length == 0 ? -1 : d3.max(keys, function (d) { return thisObject[d] })
+            var SegData;
+            OrdinalPositionHolder = {
+                  valueOf: function () {
+                        thisObject = this;
+                        keys = Object.keys(thisObject);
+                        keys.splice(keys.indexOf("valueOf"), 1);
+                        keys.splice(keys.indexOf("keys"), 1);
+                        return keys.length == 0 ? -1 : d3.max(keys, function (d) {
+                              return thisObject[d]
+                        })
+                  },
+                  keys: function () {
+                        keys = Object.keys(thisObject);
+                        keys.splice(keys.indexOf("valueOf"), 1);
+                        keys.splice(keys.indexOf("keys"), 1);
+                        return keys;
+                  }
             }
-            , keys: function () {
-                  keys = Object.keys(thisObject);
-                  keys.splice(keys.indexOf("valueOf"), 1);
-                  keys.splice(keys.indexOf("keys"), 1);
-                  return keys;
+            array[0].map(function (d) {
+                  return d[on]
+            }).forEach(function (b) {
+                  value = OrdinalPositionHolder.valueOf();
+                  OrdinalPositionHolder[b] = OrdinalPositionHolder > -1 ? ++value : 0;
+            })
+
+            SegData = OrdinalPositionHolder.keys().map(function () {
+                  return [];
+            });
+
+            array.forEach(function (d) {
+                  d.forEach(function (b) {
+                        SegData[OrdinalPositionHolder[b[on]]].push(b);
+                  })
+            });
+
+            return SegData;
+      }
+      d3.json("/data1.json", function (error, Data) {
+            if (error) throw error;
+
+            var margin = {
+                        top: 20,
+                        right: 30,
+                        bottom: 60,
+                        left: 50
+                  },
+                  width = 960 - margin.left - margin.right,
+                  height = 500 - margin.top - margin.bottom;
+
+            var textWidthHolder = 0;
+            /// Adding Date in LineCategory
+            Data.forEach(function (d) {
+                  d.LineCategory.forEach(function (b) {
+                        b.Date = d.Date;
+                  })
+            });
+            var Categories = new Array();
+            // Extension method declaration
+
+            Categories.pro
+
+            var Data;
+            var ageNames;
+            var x0 = d3.scale.ordinal()
+                  .rangeRoundBands([0, width], .1);
+            var XLine = d3.scale.ordinal()
+                  .rangeRoundPoints([0, width], .1);
+            var x1 = d3.scale.ordinal();
+
+            var y = d3.scale.linear()
+                  .range([height, 0]);
+
+            var YLine = d3.scale.linear().range([height, 0])
+                  .domain([0, d3.max(Data, function (d) {
+                        return d3.max(d.LineCategory, function (b) {
+                              return b.Value
+                        })
+                  })]);
+
+            var color = d3.scale.ordinal()
+                  .range(["#01b8aa", "#374649", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+            var line = d3.svg.line().x(function (d) {
+                  d.posX = x0(d.Date) + x0.rangeBand() / 2;
+                  return x0(d.Date) + x0.rangeBand() / 2;
+            }).y(function (d) {
+                  d.posY = YLine(d.Value);
+                  return YLine(d.Value)
+            })
+
+
+            function make_y_axis() {
+                  return d3.svg.axis()
+                        .scale(y)
+                        .orient("left")
+                        .ticks(10)
             }
-      }
-      array[0].map(function (d) { return d[on] }).forEach(function (b) {
-            value = OrdinalPositionHolder.valueOf();
-            OrdinalPositionHolder[b] = OrdinalPositionHolder > -1 ? ++value : 0;
-      })
 
-      SegData = OrdinalPositionHolder.keys().map(function () {
-            return [];
-      });
+            function make_x_axis() {
+                  return d3.svg.axis()
+                        .scale(x)
+                        .orient("left")
+                        .ticks(10)
+            }
 
-      array.forEach(function (d) {
-            d.forEach(function (b) {
-                  SegData[OrdinalPositionHolder[b[on]]].push(b);
-            })
-      });
+            function getIndex(arr, currX) {
+                  var index = -1;
+                  arr.forEach(function (item) {
+                        if (item.posX <= currX) {
+                              index++;
+                        }
+                  });
+                  return index;
+            }
+            var xAxis = d3.svg.axis()
+                  .scale(x0)
+                  .orient("bottom");
 
-      return SegData;
-      }
-d3.json("/data1.json", function(error,Data){
-      if (error) throw error;
-
-      var margin = { top: 20, right: 30, bottom: 60, left: 50 },
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
-
-      var textWidthHolder = 0;
-      /// Adding Date in LineCategory
-      Data.forEach(function (d) {
-            d.LineCategory.forEach(function (b) {
-                  b.Date = d.Date;
-            })
-      });
-      var Categories = new Array();
-      // Extension method declaration
-
-      Categories.pro
-
-      var Data;
-      var ageNames;
-      var x0 = d3.scale.ordinal()
-      .rangeRoundBands([0, width], .1);
-      var XLine = d3.scale.ordinal()
-      .rangeRoundPoints([0, width], .1);
-      var x1 = d3.scale.ordinal();
-
-      var y = d3.scale.linear()
-      .range([height, 0]);
-
-      var YLine = d3.scale.linear().range([height, 0])
-      .domain([0, d3.max(Data, function (d) { return d3.max(d.LineCategory, function (b) { return b.Value }) })]);
-
-      var color = d3.scale.ordinal()
-      .range(["#01b8aa", "#374649", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-      var line = d3.svg.line().x(function (d) {
-            return x0(d.Date) + x0.rangeBand() / 2;
-      }).y(function (d) { return YLine(d.Value) })
-
-
-      function make_y_axis() {        
-            return d3.svg.axis()
+            var yAxis = d3.svg.axis()
                   .scale(y)
                   .orient("left")
-                  .ticks(10)
-      }
-      
-      function make_x_axis() {        
-            return d3.svg.axis()
-                  .scale(x)
-                  .orient("left")
-                  .ticks(10)
-      }
+                  .tickFormat(d3.format(".2s"));
 
-      var xAxis = d3.svg.axis()
-      .scale(x0)
-      .orient("bottom");
+            var svg = d3.select("body").append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      var yAxis = d3.svg.axis()
-      .scale(y)
-      .orient("left")
-      .tickFormat(d3.format(".2s"));
-
-      var svg = d3.select("body").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      // Bar Data categories
-      Data.forEach(function (d) {
-      d.Categories.forEach(function (b) {
-            if (Categories.findIndex(function (c) { return c.Name===b.Name}) == -1) {
-                  b.Type = "bar";
-                  console.log(JSON.stringify(b))
-                  Categories.push(b)
-            }
-      })
-      });
-
-      // Line Data categories
-      Data.forEach(function (d) {
-            d.LineCategory.forEach(function (b) {
-                  if (Categories.findIndex(function (c) { return c.Name === b.Name }) == -1) {
-                        b.Type = "line";
-                        console.log(JSON.stringify(b))
-                        Categories.push(b)
-                  }
-            })
-      });
-
-      // Processing Line data
-      lineData = DataSegregator(Data.map(function (d) { return d.LineCategory }), "Name");
-
-      // Line Coloring
-      LineColor = d3.scale.ordinal();
-      LineColor.domain(Categories.filter(function (d) { return d.Type == "line" }).map(function (d) { return d.Name }));
-      LineColor.range(["#fd625e", "#06bf00", "#98bdc5", "#671919", "#0b172b"])
-      x0.domain(Data.map(function (d) { return d.Date; }));
-      XLine.domain(Data.map(function (d) { return d.Date; }));
-      x1.domain(Categories.filter(function (d) { return d.Type == "bar" }).map(function (d) { return d.Name})).rangeRoundBands([0, x0.rangeBand()]);
-      y.domain([0, d3.max(Data, function (d) { return d3.max(d.Categories, function (d) { return d.Value; }); })]);
-
-      svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
-
-      svg.append("g")
-            .attr("class", "y axis")
-            .attr("transform", "translate(" + width + ",0)")
-
-      svg.append("g")         
-            .attr("class", "grid")
-            .call(make_y_axis()
-                  .tickSize(-width, 0, 0)
-                  .tickFormat("")
-            )
-      svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-         .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -50)
-            .attr("font-size","20px")
-            .attr("dy", ".71em")
-            .attr("dx", "-7em")
-            .style("text-anchor", "end")
-            .style("fill", "#777777")
-            .text("Population");
-
-
-      var state = svg.selectAll(".state")
-            .data(Data)
-            .enter().append("g")
-            .attr("class", "state")
-            .attr("transform", function (d) { return "translate(" + x0(d.Date) + ",0)"; });
-            
-      var divTooltip = d3.select("body").append("div").attr("class", "toolTip");
-      state.selectAll("rect")
-            .data(function (d) { return d.Categories; })
-            .enter().append("rect")
-            .attr("width", x1.rangeBand())
-            .attr("x", function (d) { return x1(d.Name); })
-            .attr("y", function (d) { return y(d.Value); })
-            .on("mousemove", function(d){
-                divTooltip.style("left", d3.event.pageX+10+"px");
-                divTooltip.style("top", d3.event.pageY-25+"px");
-                divTooltip.style("display", "inline-block");
-                var elements = document.querySelectorAll(':hover');
-                l = elements.length
-                l = l-1
-                element = elements[l].__data__
-                value = element.y1 - element.y0
-                divTooltip.html("<br><div>Name: "+d.Name+"</div><br><div>Value: "+d.Value+"</div>");
-            })
-            .on("mouseout", function(d){
-                divTooltip.style("display", "none");
-            })
-            .style("fill", function (d) { return color(d.Name); })
-            .transition()
-            .delay(500)
-            .attrTween("height", function (d) {
-                  var i = d3
-                  .interpolate(0, height - y(d.Value));
-                  return function (t)
-                  {
-                        return i(t);
-                  }
+            // Bar Data categories
+            Data.forEach(function (d) {
+                  d.Categories.forEach(function (b) {
+                        b.Date = d.Date;
+                        if (Categories.findIndex(function (c) {
+                                    return c.Name === b.Name
+                              }) == -1) {
+                              b.Type = "bar";
+                              //console.log(JSON.stringify(b))
+                              Categories.push(b)
+                        }
+                  })
             });
-      state.selectAll("text")
-            .data(function (d) { return d.Categories; })
-         .enter().append("text")
-            .attr("class", "textbar")
-            .attr("text-anchor", "middle")
-            .attr("x", function(d) { return x1(d.Name) + x1.rangeBand()/2; })
-            .attr("y", function(d) { return y(d.Value) - 5; })
-            .text(function(d) { return d.Value; });
 
-      // drawaing lines
-      var div = d3.select("body").append("div")	
-    .attr("class", "tooltip")				
-    .style("opacity", 0);
-      svg.selectAll(".lines")
-            .data(lineData)
-            .enter().append("g")
-            .attr("class", "line")
-            .each(function (d,i) {
-                  Name=d[0].Name
-                  d3.select(this).append("path")
-                  .attr("d", function (b) { return line(b) })
-                  .style({ "stroke-width": "2px", "fill": "none" })
-                  .style("stroke", LineColor(Name))
-                  .on("mouseover", function(d) {
-                     div.transition()		
-                        .duration(200)		
-                        .style("opacity", .9);		
-                     div.html(d.Date + "<br/>"  + d.Value)	
-                        .style("left", (d3.event.pageX) + "px")		
-                        .style("top", (d3.event.pageY - 28) + "px");
-                  })				
-                  .on("mouseout", function(d) {		
-                        div.transition()		
-                        .duration(500)		
-                        .style("opacity", 0);	
+            // Line Data categories
+            Data.forEach(function (d) {
+                  d.LineCategory.forEach(function (b) {
+                        if (Categories.findIndex(function (c) {
+                                    return c.Name === b.Name
+                              }) == -1) {
+                              b.Type = "line";
+                              //console.log(JSON.stringify(b))
+                              Categories.push(b)
+                        }
                   })
-                  .attr("x", function(d) { return x1(d.Name) + x1.rangeBand()/2; })
-                  .attr("y", function(d) { return y(d.Value) - 5; })
-                  .text(function(d) { return 1000; })
-                  .transition().duration(1500);
-            })
-            .style("shape-rendering","geometricPrecision")
-            
-      // Legends
- 
-        
-      //------------------------------------------
-      var LegendHolder = svg.append("g").attr("class", "legendHolder");
-      var legend = LegendHolder.selectAll(".legend")
-      .data(Categories.map(function (d) { return {"Name":d.Name,"Type":d.Type}}))
-      .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function (d, i) { return "translate(0," +( -20 )+ ")"; })
-      .each(function (d,i) {
-            //  Legend Symbols
-            d3.select(this).append("circle")
-                  .attr("width", function () { return 18 })
-                  .attr("cx", function (b) {
-                        left = (i+1) * 15 + i * 18 + i * 55 + 10;
-                        if( i==1 )
-                              left-=10;
-                        if (i==2)
-                              left-=16;
-                        return left;
+            });
+
+            // Processing Line data
+            lineData = DataSegregator(Data.map(function (d) {
+                  return d.LineCategory
+            }), "Name");
+
+            // Line Coloring
+            LineColor = d3.scale.ordinal();
+            LineColor.domain(Categories.filter(function (d) {
+                  return d.Type == "line"
+            }).map(function (d) {
+                  return d.Name
+            }));
+            LineColor.range(["#fd625e", "#06bf00", "#98bdc5", "#671919", "#0b172b"])
+            x0.domain(Data.map(function (d) {
+                  return d.Date;
+            }));
+            XLine.domain(Data.map(function (d) {
+                  return d.Date;
+            }));
+            x1.domain(Categories.filter(function (d) {
+                  return d.Type == "bar"
+            }).map(function (d) {
+                  return d.Name
+            })).rangeRoundBands([0, x0.rangeBand()]);
+            y.domain([0, d3.max(Data, function (d) {
+                  return d3.max(d.Categories, function (d) {
+                        return d.Value;
+                  });
+            })]);
+
+            svg.append("g")
+                  .attr("class", "x axis")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(xAxis);
+
+            svg.append("g")
+                  .attr("class", "y axis")
+                  .attr("transform", "translate(" + width + ",0)")
+
+            svg.append("g")
+                  .attr("class", "grid")
+                  .call(make_y_axis()
+                        .tickSize(-width, 0, 0)
+                        .tickFormat("")
+                  )
+
+            svg.append("g")
+                  .attr("class", "y axis")
+                  .call(yAxis)
+                  .append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", -50)
+                  .attr("font-size", "20px")
+                  .attr("dy", ".71em")
+                  .attr("dx", "-7em")
+                  .style("text-anchor", "end")
+                  .style("fill", "#777777")
+                  .text("Population")
+                  .on("mousemove", function () {
+                        divTooltip.style("left", d3.event.pageX + 10 + "px");
+                        divTooltip.style("top", d3.event.pageY - 25 + "px");
+                        divTooltip.style("display", "inline-block");
+                        divTooltip.html("<div>Population</div>");
                   })
-                  .attr("cy", 9)
-                  .attr("r", 7)
-                  .style("fill", function (b) { return b.Type == 'bar' ? color(d.Name) : LineColor(d.Name) });
-            
-            
-            //  Legend Text
+                  .on("mouseout", function () {
+                        divTooltip.style("display", "none");
+                  });
 
-            d3.select(this).append("text")
-            .attr("x", function (b) {
 
-                  left = (i+1) * 15 + (i+1) * 18 + (i + 1) * 5 + textWidthHolder;
+            var state = svg.selectAll(".state")
+                  .data(Data)
+                  .enter().append("g")
+                  .attr("class", "state")/*
+                  .on("mousemove", function (d) {
+                        divTooltip.style("left", d3.event.pageX + 10 + "px");
+                        divTooltip.style("top", d3.event.pageY - 25 + "px");
+                        divTooltip.style("display", "inline-block");
+                        divTooltip.html("<div>" + d.Date + "</div>");
+                  })
+                  .on("mouseout", function (d) {
+                        divTooltip.style("display", "none");
+                  })*/
+                  .attr("transform", function (d) {
+                        return "translate(" + x0(d.Date) + ",0)";
+                  });
 
-                  return left;
+            var divTooltip = d3.select("body")
+                              .append("div")
+                              .attr("class", "toolTip");
+            state.selectAll("rect")
+                  .data(function (d) {
+                        return d.Categories;
+                  })
+                  .enter().append("rect")
+                  .attr("width", x1.rangeBand())
+                  .attr("x", function (d) {
+                        return x1(d.Name);
+                  })
+                  .attr("y", function (d) {
+                        return y(d.Value);
+                  })
+                  .on("mousemove", function (d) {
+                        divTooltip.style("left", d3.event.pageX + 10 + "px");
+                        divTooltip.style("top", d3.event.pageY - 25 + "px");
+                        divTooltip.style("display", "inline-block");
+                        divTooltip.html("<div>Date: " + d.Date + "</div><div>Name: " + d.Name + "</div><div>Value: " +
+                              d.Value + "</div>");
+                  })
+                  .on("mouseout", function (d) {
+                        divTooltip.style("display", "none");
+                  })
+                  .style("fill", function (d) {
+                        return color(d.Name);
+                  })
+                  .transition()
+                  .delay(500)
+                  .attrTween("height", function (d) {
+                        var i = d3
+                              .interpolate(0, height - y(d.Value));
+                        return function (t) {
+                              return i(t);
+                        }
+                  });
+            state.selectAll("text")
+                  .data(function (d) {
+                        return d.Categories;
+                  })
+                  .enter().append("text")
+                  .attr("class", "textbar")
+                  .attr("text-anchor", "middle")
+                  .attr("x", function (d) {
+                        return x1(d.Name) + x1.rangeBand() / 2;
+                  })
+                  .attr("y", function (d) {
+                        return y(d.Value) - 5;
+                  })
+                  .text(function (d) {
+                        return d.Value;
+                  });
+            // drawaing lines
+            var bisect = d3.bisector(function (d) {
+                  return d.x;
+            }).left;
+            var xScale = d3.scaleLinear()
+                  .domain([0, width])
+                  .range([0, width]);
+            var div = d3.select("body").append("div")
+                  .style("opacity", 0);
+            svg.selectAll(".lines")
+                  .data(lineData)
+                  .enter().append("g")
+                  .attr("class", "line")
+                  .each(function (d, i) {
+                        Name = d[0].Name
+                        d3.select(this).append("path")
+                              .attr("d", function (b) {
+                                    return line(b)
+                              })
+                              .style({
+                                    "stroke-width": "2px",
+                                    "fill": "none"
+                              })
+                              .style("stroke", LineColor(Name))
+                              .on("mouseover", function (d) {
+                                    var mouseX = d3.mouse(this);
+                                    var x = xScale.invert(mouseX[0]);
+                                    var index = getIndex(d, x);
+                                    var pos = index;
+                                    if ((d[index].posX + d[index + 1].posX) / 2 < x) {
+                                          pos += 1;
+                                    }
+                                    divTooltip.html("<div>" + d[pos].Date + "<br/>" + d[pos].Value + "</div>")
+                                    divTooltip.style("left", d3.event.pageX + 10 + "px");
+                                    divTooltip.style("top", d3.event.pageY - 25 + "px");
+                                    divTooltip.style("display", "inline-block");
+                              })
+                              .on("mouseout", function (d) {
+                                    divTooltip.style("display", "none");
+                              })
+                              .text(function (d) {
+                                    return 1000;
+                              })
+                              .transition().duration(1500);
+                  })
+                  .style("shape-rendering", "geometricPrecision")
+
+            // Legends
+
+
+            //------------------------------------------
+            var LegendHolder = svg.append("g").attr("class", "legendHolder");
+            LegendHolder.selectAll(".legend")
+                  .data(Categories.map(function (d) {
+                        return {
+                              "Name": d.Name,
+                              "Type": d.Type
+                        }
+                  }))
+                  .enter().append("g")
+                  .attr("class", "legend")
+                  .attr("transform", function (d, i) {
+                        return "translate(0," + (-20) + ")";
+                  })
+                  .on("mousemove", function (d) {
+                        divTooltip.style("left", d3.event.pageX + 10 + "px");
+                        divTooltip.style("top", d3.event.pageY - 25 + "px");
+                        divTooltip.style("display", "inline-block");
+                        divTooltip.html("<div>" + d.Name + "</div>");
+                  })
+                  .on("mouseout", function (d) {
+                        divTooltip.style("display", "none");
+                  })
+                  .each(function (d, i) {
+                        //  Legend Symbols
+                        d3.select(this).append("circle")
+                              .attr("width", function () {
+                                    return 18
+                              })
+                              .attr("cx", function (b) {
+                                    left = (i + 1) * 15 + i * 18 + i * 55 + 10;
+                                    if (i == 1)
+                                          left -= 10;
+                                    if (i == 2)
+                                          left -= 16;
+                                    return left;
+                              })
+                              .attr("cy", 9)
+                              .attr("r", 7)
+                              .style("fill", function (b) {
+                                    return b.Type == 'bar' ? color(d.Name) : LineColor(d.Name)
+                              });
+                        //  Legend Text
+                        d3.select(this).append("text")
+                              .attr("x", function (b) {
+
+                                    left = (i + 1) * 15 + (i + 1) * 18 + (i + 1) * 5 +
+                                          textWidthHolder;
+
+                                    return left;
+                              })
+                              .attr("y", 9)
+                              .attr("dy", ".35em")
+                              .style("text-anchor", "start")
+                              .text(d.Name);
+                        textWidthHolder += getTextWidth(d.Name, "10px", "calibri");
+                  });
+
+            // Legend Placing
+
+            d3.select(".legendHolder").attr("transform", function (d) {
+                  thisWidth = d3.select(this).node().getBBox().width;
+                  return "translate(" + ((width) / 2 - thisWidth / 2) + ",0)";
             })
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "start")
-            .text(d.Name);
 
-            textWidthHolder += getTextWidth(d.Name, "10px", "calibri");
       });
-
-      // Legend Placing
-
-      d3.select(".legendHolder").attr("transform", function (d) {
-      thisWidth = d3.select(this).node().getBBox().width;
-      return "translate(" + ((width) / 2 - thisWidth / 2) + ",0)";
-      })
-
-});
 </script>
