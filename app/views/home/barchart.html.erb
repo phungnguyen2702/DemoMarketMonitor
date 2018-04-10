@@ -77,7 +77,7 @@
       .toolTip {
             font-family: 'Segoe UI',helvetica,arial,sans-serif;
             position: absolute;
-            width: auto;
+            min-width: 200px;
             height: auto;
             background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
             color: white;
@@ -92,6 +92,24 @@
             position: absolute;
             left: -7px;
             top: 20%;
+      }
+      .toolTip.left .arrow { 
+            left: auto;
+            right: -7px;
+            border-right: none;
+            border-left: 7px solid rgba(0, 0, 0, 0.8);
+      }
+      .toolTip .wrap .row{
+            display: flex;
+            flex-wrap: nowrap; 
+      }
+      .toolTip .wrap .row .col-left{
+            text-align: right;
+            width: calc(100% / 3);
+            padding-right: 5px;
+      }
+      .toolTip .wrap .row .col-right{
+            width: calc(200% / 3);
       }
 </style>
 <svg id="barchart"></svg>
@@ -382,11 +400,32 @@ d3.json("/data1.json", function (error, Data) {
                   return y(d.Value);
             })
             .on("mousemove", function (d) {
-                  divTooltip.style("left", d3.event.pageX + 10 + "px");
                   divTooltip.style("top", d3.event.pageY - 20 + "px");
+                  var posTooltip = d3.event.pageX + 10;
+                  divTooltip.attr("class","toolTip");
+                  if ($('#barchart').width() - 250 < d3.event.offsetX){
+                        posTooltip = d3.event.pageX - 220;
+                        divTooltip.attr("class","toolTip left");
+                  }
+                  divTooltip.style("left", posTooltip + "px");
                   divTooltip.style("display", "inline-block");
-                  divTooltip.html("<div class='arrow'></div><div>Date: " + d.Date + "</div><div>Name: " + d.Name + "</div><div>Value: " +
-                        d.Value + "</div>");
+                  divTooltip.html(
+                              "<div class='arrow'></div>" +
+                              "<div class='wrap'>" + 
+                              "<div class='row'>\
+                                    <div class='col-left'>Date:</div>\
+                                    <div class='col-right'>" + d.Date + "</div>\
+                              </div>" +
+                              "<div class='row'>\
+                                    <div class='col-left'>Name:</div>\
+                                    <div class='col-right'>" + d.Name + "</div>\
+                              </div>" +
+                              "<div class='row'>\
+                                    <div class='col-left'>Value:</div>\
+                                    <div class='col-right'>" + d.Value + "</div>\
+                              </div>" +
+                              "</div>"
+                              );
             })
             .on("mouseout", function (d) {
                   divTooltip.style("display", "none");
@@ -474,8 +513,33 @@ d3.json("/data1.json", function (error, Data) {
                         if ((d[index].posX + d[index + 1].posX) / 2 < mouseX[0]) {
                               pos += 1;
                         }
-                        divTooltip.html("<div class='arrow'></div><div>" + d[pos].Date + "<br/>" + d[pos].Value + "</div>")
-                        divTooltip.style("left", d3.event.pageX + 10 + "px");
+                        
+                        var posTooltip = d3.event.pageX + 10;
+                        divTooltip.attr("class","toolTip");
+                        if ($('#barchart').width() - 250 < d3.event.offsetX){
+                              posTooltip = d3.event.pageX - 220;
+                              divTooltip.attr("class","toolTip left");
+                        }
+                        divTooltip.style("left", posTooltip + "px");
+                        divTooltip.style("display", "inline-block");
+                        divTooltip.html(
+                              "<div class='arrow'></div>" +
+                              "<div class='wrap'>" + 
+                              "<div class='row'>\
+                                    <div class='col-left'>Date:</div>\
+                                    <div class='col-right'>" + d[pos].Date + "</div>\
+                              </div>" +
+                              "<div class='row'>\
+                                    <div class='col-left'>Name:</div>\
+                                    <div class='col-right'>" + d[pos].Name + "</div>\
+                              </div>" +
+                              "<div class='row'>\
+                                    <div class='col-left'>Value:</div>\
+                                    <div class='col-right'>" + d[pos].Value + "</div>\
+                              </div>" +
+                              "</div>"
+                              );
+
                         divTooltip.style("top", d3.event.pageY - 15 + "px");
                         divTooltip.style("display", "inline-block");
                   })
@@ -538,7 +602,7 @@ d3.json("/data1.json", function (error, Data) {
             .on("mouseout", function (d) {
                   divTooltip.style("display", "none");
             })
-            .on('click', function(){
+            /*.on('click', function(){
                   var current = $(this).data('ctype');
                   if ($(this).hasClass('show')){
                         $('#barchart').find('.opacity').css('opacity',1);
@@ -550,7 +614,7 @@ d3.json("/data1.json", function (error, Data) {
                         $('#barchart').find('.opacity').css('opacity',0.3);
                         $('.' + current).css('opacity',1);
                   }
-            })
+            })*/
             .each(function (d, i) {
                   //  Legend Symbols
                   d3.select(this).append("circle")
