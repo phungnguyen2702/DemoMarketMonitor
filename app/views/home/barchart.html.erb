@@ -2,6 +2,13 @@
 <style>
       .legend {
             border-radius: 50%;
+            text-overflow: ellipsis;
+            white-space: pre;
+            color: rgb(119, 119, 119) !important;
+            font-family: "Segoe UI", helvetica, arial, sans-serif;
+            font-size: 10px;
+            padding-left: 1px;
+            padding-right: 4px;
       }
 
       .linkx {
@@ -9,7 +16,14 @@
       }
 
       body {
-            font: 10px sans-serif;
+           margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI',helvetica,arial,sans-serif;
+            color: #666;
+            /*background-color: #eaeaea;*/
+            font-size: 16px;
+            height: 100%;
+            width: 100%;
       }
 
       .axis path,
@@ -19,21 +33,33 @@
       }
 
       .textbar {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+            fill-opacity: 0.7;
+            position: absolute;
             line-height: 1;
-            font: 13px sans-serif;
-            padding: 12px;
-            fill: #777777;
+            font: 12px  helvetica, arial, sans-serif;
+            fill: rgb(119, 119, 119);
       }
 
       .x.axis path {
             display: none;
       }
-
+      .axisLabel {
+            text-anchor: end;
+            fill: rgb(119, 119, 119);
+            font-size: 15px;
+      }
       /*svg {overflow-x: scroll; width: 200px;}*/
 
-      .grid .tick {
-            stroke: lightgrey;
+      .grid {
+            stroke: lightgrey
+      }
+      .tick {
             opacity: 0.7;
+            text-anchor: end;
+            fill: rgb(119, 119, 119);
+            font-size: 11px;
+
       }
 
       .grid path {
@@ -49,71 +75,27 @@
       }
 
       .toolTip {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI',helvetica,arial,sans-serif;
             position: absolute;
-            display: none;
             width: auto;
             height: auto;
-            content: "\25BC";
             background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
             color: white;
             font: 12px;
             padding: 5px;
       }
-</style>
-
-<style>
-  .linkx{
-            font-size: 17px;
-            
+      .toolTip .arrow { 
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-right: 7px solid rgba(0, 0, 0, 0.8);
+            position: absolute;
+            left: -7px;
+            top: 20%;
       }
-body {
-  font: 10px;
-  font-family: "Segoe UI";
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-#chart {
-  width: 500px;
-  height: 700px;
-  position: absolute;
-}
-.legend{
-  font-size: 12px;
-  font-family: "Segoe UI";
-}
-.grid .tick {
-    stroke: lightgrey;
-    opacity: 0.7;
-}
-.grid path {
-      stroke-width: 0;
-} 
-.toolTip {
-      font-family: "Segoe UI";
-      position: absolute;
-      display: none;
-      width: auto;
-      height: auto;
-      content: "\25BC";
-      background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-      color: white;
-      font-size: 12px; 
-      padding: 5px;
-}
 </style>
-
 <svg id="barchart"></svg>
-<br>
-<svg id="chart"></svg>
 <script>
-      function getTextWidth(text, fontSize, fontName) {
+function getTextWidth(text, fontSize, fontName) {
       c = document.createElement("canvas");
       ctx = c.getContext("2d");
       ctx.font = fontSize + ' ' + fontName;
@@ -182,34 +164,24 @@ d3.json("/data1.json", function (error, Data) {
 
       Categories.pro
 
-      var Data;
-      var ageNames;
       var x0 = d3.scale.ordinal()
             .rangeRoundBands([0, width], .1);
-      var XLine = d3.scale.ordinal()
-            .rangeRoundPoints([0, width], .1);
       var x1 = d3.scale.ordinal();
 
       var y = d3.scale.linear()
             .range([height, 0]);
-
-      var YLine = d3.scale.linear().range([height, 0])
-            .domain([0, d3.max(Data, function (d) {
-                  return d3.max(d.LineCategory, function (b) {
-                        return b.Value
-                  })
-            })]);
-
       var color = d3.scale.ordinal()
             .range(["#01b8aa", "#374649", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
-      var line = d3.svg.line().x(function (d) {
-            d.posX = x0(d.Date) + x0.rangeBand() / 2;
-            return x0(d.Date) + x0.rangeBand() / 2;
-      }).y(function (d) {
-            d.posY = YLine(d.Value);
-            return YLine(d.Value)
-      })
+      var line = d3.svg.line()
+            .x(function (d) {
+                  d.posX = x0(d.Date) + x0.rangeBand() / 2;
+                  return x0(d.Date) + x0.rangeBand() / 2;
+            })
+            .y(function (d) {
+                  d.posY = y(d.Value);
+                  return y(d.Value)
+            })
 
 
       function make_y_axis() {
@@ -293,9 +265,6 @@ d3.json("/data1.json", function (error, Data) {
       x0.domain(Data.map(function (d) {
             return d.Date;
       }));
-      XLine.domain(Data.map(function (d) {
-            return d.Date;
-      }));
       x1.domain(Categories.filter(function (d) {
             return d.Type == "bar"
       }).map(function (d) {
@@ -308,9 +277,19 @@ d3.json("/data1.json", function (error, Data) {
       })]);
 
       svg.append("g")
+            .data(Data)
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
+            .call(xAxis)
+            .on("mousemove", function (d) {
+                  divTooltip.style("left", d3.event.pageX + 10 + "px");
+                  divTooltip.style("top", d3.event.pageY - 25 + "px");
+                  divTooltip.style("display", "inline-block");
+                  divTooltip.html("<div>"+d.Date+"</div>");
+            })
+            .on("mouseout", function () {
+                  divTooltip.style("display", "none");
+            });
 
       svg.append("g")
             .attr("class", "y axis")
@@ -326,25 +305,34 @@ d3.json("/data1.json", function (error, Data) {
       svg.append("g")
             .attr("class", "y axis")
             .call(yAxis)
-            .append("text")
+          .append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -50)
-            .attr("font-size", "20px")
+            .attr("y", -45)
+            .attr("x", -40)
+            .attr("class", "axisLabel")
             .attr("dy", ".71em")
             .attr("dx", "-7em")
-            .style("text-anchor", "end")
-            .style("fill", "#777777")
             .text("Population")
             .on("mousemove", function () {
                   divTooltip.style("left", d3.event.pageX + 10 + "px");
                   divTooltip.style("top", d3.event.pageY - 25 + "px");
                   divTooltip.style("display", "inline-block");
-                  divTooltip.html("<div>Population</div>");
+                  divTooltip.html("<div>"+ this.textContent +"</div>");
             })
             .on("mouseout", function () {
                   divTooltip.style("display", "none");
             });
-
+            
+      svg.selectAll(".y.axis .tick text")
+            .on("mousemove", function () {
+                  divTooltip.style("left", d3.event.pageX + 10 + "px");
+                  divTooltip.style("top", d3.event.pageY - 25 + "px");
+                  divTooltip.style("display", "inline-block");
+                  divTooltip.html("<div>" + this.textContent + "</div>");
+            })
+            .on("mouseout", function () {
+                  divTooltip.style("display", "none");
+            });
 
       var state = svg.selectAll(".state")
             .data(Data)
@@ -371,9 +359,9 @@ d3.json("/data1.json", function (error, Data) {
             })
             .on("mousemove", function (d) {
                   divTooltip.style("left", d3.event.pageX + 10 + "px");
-                  divTooltip.style("top", d3.event.pageY - 25 + "px");
+                  divTooltip.style("top", d3.event.pageY - 20 + "px");
                   divTooltip.style("display", "inline-block");
-                  divTooltip.html("<div>Date: " + d.Date + "</div><div>Name: " + d.Name + "</div><div>Value: " +
+                  divTooltip.html("<div class='arrow'></div><div>Date: " + d.Date + "</div><div>Name: " + d.Name + "</div><div>Value: " +
                         d.Value + "</div>");
             })
             .on("mouseout", function (d) {
@@ -391,11 +379,31 @@ d3.json("/data1.json", function (error, Data) {
                         return i(t);
                   }
             });
+            state.append("rect").attr("class", "textbar");
       state.selectAll("text")
             .data(function (d) {
                   return d.Categories;
             })
-            .enter().append("text")
+            .enter()
+            .append("rect")
+            .style("fill", "white")
+            .style("fill-opacity",0.7)
+            .attr("rx",4)
+            .attr("ry",4)
+            .attr("x", function (d) {
+                  return x1(d.Name) + x1.rangeBand() / 2 -20;
+            })
+            .attr("y",  function (d) {
+                  return y(d.Value) -17;
+            })
+            .attr("width",43)
+            .attr("height",15);
+      state.selectAll("text")
+            .data(function (d) {
+                  return d.Categories;
+            })
+            .enter()
+            .append("text")
             .attr("class", "textbar")
             .attr("text-anchor", "middle")
             .attr("x", function (d) {
@@ -439,9 +447,9 @@ d3.json("/data1.json", function (error, Data) {
                               if ((d[index].posX + d[index + 1].posX) / 2 < x) {
                                     pos += 1;
                               }
-                              divTooltip.html("<div>" + d[pos].Date + "<br/>" + d[pos].Value + "</div>")
+                              divTooltip.html("<div class='arrow'></div><div>" + d[pos].Date + "<br/>" + d[pos].Value + "</div>")
                               divTooltip.style("left", d3.event.pageX + 10 + "px");
-                              divTooltip.style("top", d3.event.pageY - 25 + "px");
+                              divTooltip.style("top", d3.event.pageY - 15 + "px");
                               divTooltip.style("display", "inline-block");
                         })
                         .on("mouseout", function (d) {
@@ -451,14 +459,25 @@ d3.json("/data1.json", function (error, Data) {
                               return 1000;
                         })
                         .transition().duration(1500);
-                  for(var i=0;i<d.length;i++){  
-                  d3.select(".line")
-                        .append("text")
-                        .attr("class", "textbar")
-                        .attr("text-anchor", "middle")
-                        .attr("x", d[i].posX)
-                        .attr("y",  d[i].posY +20)
-                        .text(d[i].Value);
+                  for(var i=0;i < d.length;i++) {  
+                        d3.select(".line")
+                              .append("rect")
+                              .style("fill", "white")
+                              .style("fill-opacity",0.7)
+                              .attr("rx",4)
+                              .attr("ry",4)
+                              .attr("x", d[i].posX-20)
+                              .attr("y",  d[i].posY +8)
+                              .attr("width",43)
+                              .attr("height",15);
+                        d3.select(".line")
+                              .append("text")
+                              .attr("class", "textbar")
+                              .attr("text-anchor", "middle")
+                              .attr("x", d[i].posX)
+                              .attr("y",  d[i].posY +20)
+                              .text(d[i].Value);
+                        
                   }
             })
             .style("shape-rendering", "geometricPrecision");
@@ -476,7 +495,7 @@ d3.json("/data1.json", function (error, Data) {
                   }
             }))
             .enter().append("g")
-            .attr("class", "legend")
+            .attr("class", "legend")            
             .attr("transform", function (d, i) {
                   return "translate(0," + (-20) + ")";
             })
@@ -519,7 +538,7 @@ d3.json("/data1.json", function (error, Data) {
                         })
                         .attr("y", 9)
                         .attr("dy", ".35em")
-                        .style("text-anchor", "start")
+                        .style("color","rgb(102, 102, 102)")
                         .text(d.Name);
                   textWidthHolder += getTextWidth(d.Name, "10px", "calibri");
             });

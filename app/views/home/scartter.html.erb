@@ -62,7 +62,9 @@ var margin = {
     bottom: 40,
     left: 50
   },
-  dim = 960,
+  dim = Math.min(parseInt(d3.select("#chart")
+          .style("width")), parseInt(d3.select("#chart")
+          .style("height"))),
   width = dim - margin.left - margin.right,
   height = dim - margin.top - margin.bottom;
 
@@ -258,7 +260,9 @@ d3.csv("/giniDummy.csv", function (error, data) {
 
 function resize() {
 
-  var dim = 960,
+  var dim = Math.min(parseInt(d3.select("#chart")
+          .style("width")), parseInt(d3.select("#chart")
+          .style("height"))),
     width = dim - margin.left - margin.right,
     height = dim - margin.top - margin.bottom;
 
