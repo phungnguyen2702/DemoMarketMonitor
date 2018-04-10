@@ -77,7 +77,7 @@
       .toolTip {
             font-family: 'Segoe UI',helvetica,arial,sans-serif;
             position: absolute;
-            min-width: 200px;
+            /*min-width: 200px;*/
             height: auto;
             background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
             color: white;
@@ -100,16 +100,17 @@
             border-left: 7px solid rgba(0, 0, 0, 0.8);
       }
       .toolTip .wrap .row{
-            display: flex;
-            flex-wrap: nowrap; 
+            display: table-row;
       }
       .toolTip .wrap .row .col-left{
             text-align: right;
-            width: calc(100% / 3);
             padding-right: 5px;
+            display: table-cell;
+            word-wrap: break-word;
       }
       .toolTip .wrap .row .col-right{
-            width: calc(200% / 3);
+            display: table-cell;
+            word-wrap: break-word;
       }
 </style>
 <svg id="barchart"></svg>
@@ -404,7 +405,7 @@ d3.json("/data1.json", function (error, Data) {
                   var posTooltip = d3.event.pageX + 10;
                   divTooltip.attr("class","toolTip");
                   if ($('#barchart').width() - 250 < d3.event.offsetX){
-                        posTooltip = d3.event.pageX - 220;
+                        posTooltip = d3.event.pageX  - $('.toolTip').width() - 20;
                         divTooltip.attr("class","toolTip left");
                   }
                   divTooltip.style("left", posTooltip + "px");
@@ -457,10 +458,12 @@ d3.json("/data1.json", function (error, Data) {
             .attr("rx",4)
             .attr("ry",4)
             .attr("x", function (d) {
-                  return x1(d.Name) + x1.rangeBand() / 2 -20;
+                  d.lb_pos_x = x1(d.Name) + x1.rangeBand() / 2 -20;
+                  return d.lb_pos_x;
             })
             .attr("y",  function (d) {
-                  return y(d.Value) -17;
+                  d.lb_pos_y = y(d.Value) -17;
+                  return d.lb_pos_y;
             })
             .attr("width",43)
             .attr("height",15);
@@ -494,7 +497,24 @@ d3.json("/data1.json", function (error, Data) {
             .attr("class", function(d, i){
                   return "opacity line " + d[i].Name;
             })
-            
+      function DrawLabel(pos, _data){
+            //debugger;
+            var pos_max = _data.Categories[0].lb_pos_y;
+            var pos_min = _data.Categories[1].lb_pos_y;
+            if (pos_max < pos_min){
+                  var t = pos_max;
+                  pos_max = pos_min;
+                  pos_min = t;
+            }
+            while(!((pos + 20 < pos_max && pos > pos_min + 20) ||
+                  (pos > pos_max + 20) || (pos < pos_min))){
+                  if (pos_max - pos_min - 20 > 30)
+                        pos--;
+                  else
+                        pos++;
+            }
+            return pos;
+      }
       lineDraw.each(function (d, i) {
             Name = d[i].Name
             d3.select(this).append("path")
@@ -507,17 +527,17 @@ d3.json("/data1.json", function (error, Data) {
                   })
                   .style("stroke", LineColor(Name))
                   .on("mouseover", function (d) {
+                        
                         var mouseX = d3.mouse(this);
                         var index = getIndex(d, mouseX[0]);
                         var pos = index;
                         if ((d[index].posX + d[index + 1].posX) / 2 < mouseX[0]) {
                               pos += 1;
                         }
-                        
                         var posTooltip = d3.event.pageX + 10;
                         divTooltip.attr("class","toolTip");
                         if ($('#barchart').width() - 250 < d3.event.offsetX){
-                              posTooltip = d3.event.pageX - 220;
+                              posTooltip = d3.event.pageX - $('.toolTip').width() - 20;
                               divTooltip.attr("class","toolTip left");
                         }
                         divTooltip.style("left", posTooltip + "px");
@@ -557,8 +577,16 @@ d3.json("/data1.json", function (error, Data) {
                         .style("fill-opacity",0.7)
                         .attr("rx",4)
                         .attr("ry",4)
-                        .attr("x", d[i].posX-20)
-                        .attr("y",  d[i].posY +8)
+                        .attr("x", function(){
+                              d[i].lb_pos_x = d[i].posX-20;
+                              return d[i].lb_pos_x;
+                        })
+                        .attr("y", function(){
+                              d[i].lb_pos_y = d[i].posY +8;
+                              d[i].lb_pos_y = DrawLabel(d[i].lb_pos_y, Data[i]);
+                              //d[i].space_change = posY_current - d[i].lb_pos_y;
+                              return d[i].lb_pos_y;
+                        })
                         .attr("width",43)
                         .attr("height",15);
                   d3.select(".line")
@@ -566,7 +594,7 @@ d3.json("/data1.json", function (error, Data) {
                         .attr("class", "textbar")
                         .attr("text-anchor", "middle")
                         .attr("x", d[i].posX)
-                        .attr("y",  d[i].posY +20)
+                        .attr("y",  d[i].lb_pos_y + 12)
                         .text(d[i].Value);
                   
             }
@@ -658,5 +686,7 @@ d3.json("/data1.json", function (error, Data) {
       })
       
       // End Draw Legend
+
+      console.log(Data[0]);
 });
 </script>
