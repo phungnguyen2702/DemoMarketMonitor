@@ -1,117 +1,117 @@
 <%= link_to  "Next", home_scartter_path, class: "linkx" %>
 <style>
-      .legend {
-            border-radius: 50%;
-            text-overflow: ellipsis;
-            white-space: pre;
-            fill: rgb(119, 119, 119) !important;
-            font-family: "Segoe UI", helvetica, arial, sans-serif;
-            font-size: 10px;
-            padding-left: 1px;
-            padding-right: 4px;
-      }
+.legend {
+      border-radius: 50%;
+      text-overflow: ellipsis;
+      white-space: pre;
+      fill: rgb(119, 119, 119) !important;
+      font-family: "Segoe UI", helvetica, arial, sans-serif;
+      font-size: 10px;
+      padding-left: 1px;
+      padding-right: 4px;
+}
 
-      .linkx {
-            font-size: 20px;
-      }
+.linkx {
+      font-size: 20px;
+}
 
-      body {
-           margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI',helvetica,arial,sans-serif;
-            color: #666;
-            /*background-color: #eaeaea;*/
-            font-size: 16px;
-            height: 100%;
-            width: 100%;
-      }
+body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI',helvetica,arial,sans-serif;
+      color: #666;
+      /*background-color: #eaeaea;*/
+      font-size: 16px;
+      height: 100%;
+      width: 100%;
+}
 
-      .axis path,
-      .axis line {
-            fill: none;
-            shape-rendering: crispEdges;
-      }
+.axis path,
+.axis line {
+      fill: none;
+      shape-rendering: crispEdges;
+}
 
-      .textbar {
-            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-            fill-opacity: 0.7;
-            position: absolute;
-            line-height: 1;
-            font: 12px  helvetica, arial, sans-serif;
-            fill: rgb(119, 119, 119);
-      }
+.textbar {
+      background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+      fill-opacity: 0.7;
+      position: absolute;
+      line-height: 1;
+      font: 12px  helvetica, arial, sans-serif;
+      fill: rgb(119, 119, 119);
+}
 
-      .x.axis path {
-            display: none;
-      }
-      .axisLabel {
-            text-anchor: end;
-            fill: rgb(119, 119, 119);
-            font-size: 15px;
-      }
-      /*svg {overflow-x: scroll; width: 200px;}*/
+.x.axis path {
+      display: none;
+}
+.axisLabel {
+      text-anchor: end;
+      fill: rgb(119, 119, 119);
+      font-size: 15px;
+}
+/*svg {overflow-x: scroll; width: 200px;}*/
 
-      .grid {
-            stroke: lightgrey
-      }
-      .tick {
-            opacity: 0.7;
-            text-anchor: end;
-            fill: rgb(119, 119, 119);
-            font-size: 11px;
+.grid {
+      stroke: lightgrey
+}
+.tick {
+      opacity: 0.7;
+      text-anchor: end;
+      fill: rgb(119, 119, 119);
+      font-size: 11px;
 
-      }
+}
 
-      .grid path {
-            stroke-width: 0;
-      }
+.grid path {
+      stroke-width: 0;
+}
 
-      svg text.label {
-            fill: black;
-            background: lightgrey;
-            font: 15px;
-            font-weight: 400;
-            text-anchor: middle;
-      }
+svg text.label {
+      fill: black;
+      background: lightgrey;
+      font: 15px;
+      font-weight: 400;
+      text-anchor: middle;
+}
 
-      .toolTip {
-            font-family: 'Segoe UI',helvetica,arial,sans-serif;
-            position: absolute;
-            /*min-width: 200px;*/
-            height: auto;
-            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-            color: white;
-            font-size: 12px;
-            padding: 5px;
-            display: none;
-      }
-      .toolTip .arrow { 
-            border-top: 7px solid transparent;
-            border-bottom: 7px solid transparent;
-            border-right: 7px solid rgba(0, 0, 0, 0.8);
-            position: absolute;
-            left: -7px;
-            top: 20%;
-      }
-      .toolTip.left .arrow { 
-            left: auto;
-            right: -7px;
-            border-right: none;
-            border-left: 7px solid rgba(0, 0, 0, 0.8);
-      }
-      .toolTip .wrap .row{
-            display: table-row;
-      }
-      .toolTip .wrap .row .col-left{
-            text-align: right;
-            padding-right: 5px;
-            display: table-cell;
-            word-wrap: break-word;
-      }
-      .toolTip .wrap .row .col-right{
-            display: table-cell;
-            word-wrap: break-word;
-      }
+.toolTip {
+      font-family: 'Segoe UI',helvetica,arial,sans-serif;
+      position: absolute;
+      /*min-width: 200px;*/
+      height: auto;
+      background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+      color: white;
+      font-size: 12px;
+      padding: 5px;
+      display: none;
+}
+.toolTip .arrow { 
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-right: 7px solid rgba(0, 0, 0, 0.8);
+      position: absolute;
+      left: -7px;
+      top: 20%;
+}
+.toolTip.left .arrow { 
+      left: auto;
+      right: -7px;
+      border-right: none;
+      border-left: 7px solid rgba(0, 0, 0, 0.8);
+}
+.toolTip .wrap .row{
+      display: table-row;
+}
+.toolTip .wrap .row .col-left{
+      text-align: right;
+      padding-right: 5px;
+      display: table-cell;
+      word-wrap: break-word;
+}
+.toolTip .wrap .row .col-right{
+      display: table-cell;
+      word-wrap: break-word;
+}
 </style>
 <svg id="barchart"></svg>
 <script>
@@ -426,7 +426,7 @@ d3.json("/data1.json", function (error, Data) {
                                     <div class='col-right'>" + d.Value + "</div>\
                               </div>" +
                               "</div>"
-                              );
+                  );
             })
             .on("mouseout", function (d) {
                   divTooltip.style("display", "none");
@@ -445,7 +445,6 @@ d3.json("/data1.json", function (error, Data) {
             });
 
       // Draw label of text
-
       state.selectAll("text")
             .data(function (d) {
                   return d.Categories;

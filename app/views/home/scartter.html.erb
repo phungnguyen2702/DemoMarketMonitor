@@ -2,13 +2,28 @@
 <meta charset="utf-8">
 <%= link_to  "Home", root_path, class: "linkx" %>
 <style>
-  .linkx{
-            font-size: 17px;
-            
-      }
+.legend {
+  border-radius: 50%;
+  text-overflow: ellipsis;
+  white-space: pre;
+  fill: rgb(119, 119, 119) !important;
+  font-family: "Segoe UI", helvetica, arial, sans-serif;
+  font-size: 10px;
+  padding-left: 1px;
+  padding-right: 4px;
+}
+.linkx{
+  font-size: 17px; 
+}
 body {
-  font: 10px;
-  font-family: "Segoe UI";
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI',helvetica,arial,sans-serif;
+  color: #666;
+  /*background-color: #eaeaea;*/
+  font-size: 16px;
+  height: 100%;
+  width: 100%;
 }
 
 .axis path,
@@ -19,32 +34,70 @@ body {
 }
 
 #chart {
-  width: 500px;
-  height: 700px;
+  width: 960px;
+  height: 500px;
   position: absolute;
 }
-.legend{
-  font-size: 12px;
-  font-family: "Segoe UI";
+.textbar {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+  fill-opacity: 0.7;
+  position: absolute;
+  line-height: 1;
+  font: 12px  helvetica, arial, sans-serif;
+  fill: rgb(119, 119, 119);
 }
-.grid .tick {
-    stroke: lightgrey;
-    opacity: 0.7;
+
+.grid {
+      stroke: lightgrey
+}
+.tick {
+      opacity: 0.7;
+      text-anchor: end;
+      fill: rgb(119, 119, 119);
+      font-size: 11px;
+
 }
 .grid path {
       stroke-width: 0;
 } 
 .toolTip {
-      font-family: "Segoe UI";
+      font-family: 'Segoe UI',helvetica,arial,sans-serif;
       position: absolute;
-      display: none;
-      width: auto;
+      /*min-width: 200px;*/
       height: auto;
-      content: "\25BC";
       background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
       color: white;
-      font-size: 12px; 
+      font-size: 12px;
       padding: 5px;
+      display: none;
+}
+.toolTip .arrow { 
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-right: 7px solid rgba(0, 0, 0, 0.8);
+      position: absolute;
+      left: -7px;
+      top: 25%;
+}
+.toolTip.left .arrow { 
+      left: auto;
+      right: -7px;
+      border-right: none;
+      border-left: 7px solid rgba(0, 0, 0, 0.8);
+}
+.toolTip .wrap .row{
+      display: table-row;
+}
+.toolTip .wrap .row .col-left{
+      text-align: right;
+      padding-right: 5px;
+      display: table-cell;
+      word-wrap: break-word;
+}
+.toolTip .wrap .row .col-right{
+  font-weight: bold;
+  display: table-cell;
+  word-wrap: break-word;
 }
 </style>
 
@@ -62,14 +115,11 @@ var margin = {
     bottom: 40,
     left: 50
   },
-  dim = Math.min(parseInt(d3.select("#chart")
-          .style("width")), parseInt(d3.select("#chart")
-          .style("height"))),
-  width = dim - margin.left - margin.right,
-  height = dim - margin.top - margin.bottom;
+  width = 960 - margin.left - margin.right,
+  height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
-  .range([0, width]);
+  .range([-1, width]);
 
 var y = d3.scale.linear()
   .range([height, 0]);
@@ -141,10 +191,19 @@ d3.csv("/giniDummy.csv", function (error, data) {
     .append("text")
     .style("fill", "gray")
     .attr("class", "label")
-    .attr("x", width - 120)
+    .attr("x", width - width/2.5)
     .attr("y", 33)
     .style("text-anchor", "end")
-    .text("Product Concentration");
+    .text("Product Concentration")
+    .on("mousemove", function () {
+      divTooltip.style("left", d3.event.pageX + 10 + "px");
+      divTooltip.style("top", d3.event.pageY - 25 + "px");
+      divTooltip.style("display", "inline-block");
+      divTooltip.html("<div>"+ this.textContent +"</div>");
+    })
+    .on("mouseout", function () {
+      divTooltip.style("display", "none");
+    });
 
   svg.append("g")
     .attr("class", "y axis")
@@ -158,7 +217,38 @@ d3.csv("/giniDummy.csv", function (error, data) {
     .attr("dy", ".71em")
     .style("text-anchor", "end")
     .text("Customer Concentration")
+    .on("mousemove", function () {
+      divTooltip.style("left", d3.event.pageX + 10 + "px");
+      divTooltip.style("top", d3.event.pageY - 25 + "px");
+      divTooltip.style("display", "inline-block");
+      divTooltip.html("<div>"+ this.textContent +"</div>");
+    })
+    .on("mouseout", function () {
+      divTooltip.style("display", "none");
+    });
 
+    // Hover Text y axis
+  svg.selectAll(".y.axis .tick text")
+    .on("mousemove", function () {
+      divTooltip.style("left", d3.event.pageX + 10 + "px");
+      divTooltip.style("top", d3.event.pageY - 25 + "px");
+      divTooltip.style("display", "inline-block");
+      divTooltip.html("<div>" + this.textContent + "</div>");
+    })
+    .on("mouseout", function () {
+      divTooltip.style("display", "none");
+    });
+      // Hover Text y axis
+  svg.selectAll(".x.axis .tick text")
+    .on("mousemove", function () {
+      divTooltip.style("left", d3.event.pageX + 10 + "px");
+      divTooltip.style("top", d3.event.pageY - 25 + "px");
+      divTooltip.style("display", "inline-block");
+      divTooltip.html("<div>" + this.textContent + "</div>");
+    })
+    .on("mouseout", function () {
+      divTooltip.style("display", "none");
+    });
   svg.selectAll(".dot")
     .data(subset)
     .enter()
@@ -177,20 +267,50 @@ d3.csv("/giniDummy.csv", function (error, data) {
       divTooltip.style("left", d3.event.pageX + 10 + "px");
       divTooltip.style("top", d3.event.pageY - 25 + "px");
       divTooltip.style("display", "inline-block");
-      divTooltip.html("<div>Category: " + d.Category + "</div>" +
-        "<div>Sub-Category: " + d.SubCategory + "</div>" +
-        "<div>Total Cost: " + "$" + dollarFormatter(d.TotalValue) + "</div>");
-    })
+      divTooltip.html(
+        "<div class='arrow'></div>" +
+        "<div class='wrap'>" + 
+        "<div class='row'>\
+          <div class='col-left'>Category:</div>\
+          <div class='col-right'>" + d.Category + "</div>\
+        </div>" +
+        "<div class='row'>\
+          <div class='col-left'>Sub-Category:</div>\
+          <div class='col-right'>" + d.SubCategory + "</div>\
+        </div>" +
+        "<div class='row'>\
+          <div class='col-left'>Total Cost:</div>\
+          <div class='col-right'>" + dollarFormatter(d.TotalValue) + "</div>\
+        </div>" +
+        "</div>"
+      );
+      })
     .on("mouseout", function (d) {
       divTooltip.style("display", "none");
     });
-
+svg.selectAll(".dot")
+    .data(subset)
+    .enter()
+    .append("rect")
+    .attr("class", "labelTextbar")
+    .style("fill", "white")
+    .style("fill-opacity",0.7)
+    .attr("rx",4)
+    .attr("ry",4)
+    .attr("x", function (d) {
+      return x(d.ProductConcentration)+8;
+    })
+    .attr("y",  function (d) {
+      return y(d.CustomerConcentration)-12;
+    })
+    .attr("width",35)
+    .attr("height",15);
   svg.selectAll(".dot")
     .data(subset)
     .enter()
     .append("text")
     .attr("x", function (d) {
-      return x(d.ProductConcentration);
+      return x(d.ProductConcentration)+9;
     })
     .attr("y", function (d) {
       return y(d.CustomerConcentration);
@@ -259,15 +379,6 @@ d3.csv("/giniDummy.csv", function (error, data) {
 });
 
 function resize() {
-
-  var dim = Math.min(parseInt(d3.select("#chart")
-          .style("width")), parseInt(d3.select("#chart")
-          .style("height"))),
-    width = dim - margin.left - margin.right,
-    height = dim - margin.top - margin.bottom;
-
-  console.log(dim);
-
   // Update the range of the scale with new width/height
   x.range([0, width]);
   y.range([height, 0]);
@@ -296,11 +407,11 @@ function resize() {
       .tickFormat("")
     )
   // Update the tick marks
-  xAxis.ticks(dim / 75);
-  yAxis.ticks(dim / 75);
+  xAxis.ticks(height / 75);
+  yAxis.ticks(height / 75);
 
   // Update the circles
-  r.range([dim / 90, dim / 35])
+  r.range([height / 90, height / 35])
 
   svg.selectAll('.dot')
     .attr("r", 7)
