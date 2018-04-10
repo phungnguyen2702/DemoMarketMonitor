@@ -4,7 +4,7 @@
             border-radius: 50%;
             text-overflow: ellipsis;
             white-space: pre;
-            color: rgb(119, 119, 119) !important;
+            fill: rgb(119, 119, 119) !important;
             font-family: "Segoe UI", helvetica, arial, sans-serif;
             font-size: 10px;
             padding-left: 1px;
@@ -81,7 +81,7 @@
             height: auto;
             background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
             color: white;
-            font: 12px;
+            font-size: 12px;
             padding: 5px;
       }
       .toolTip .arrow { 
@@ -161,9 +161,6 @@ d3.json("/data1.json", function (error, Data) {
       });
       var Categories = new Array();
       // Extension method declaration
-
-      Categories.pro
-
       var x0 = d3.scale.ordinal()
             .rangeRoundBands([0, width], .1);
       var x1 = d3.scale.ordinal();
