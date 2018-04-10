@@ -371,6 +371,9 @@ d3.json("/data1.json", function (error, Data) {
             })
             .enter()
             .append("rect")
+            .attr("class", function (d) {
+                  return "opacity bar " + d.Name;
+            })
             .attr("width", x1.rangeBand())
             .attr("x", function (d) {
                   return x1(d.Name);
@@ -449,10 +452,12 @@ d3.json("/data1.json", function (error, Data) {
       var lineDraw = svg.selectAll(".line")
             .data(lineData)
             .enter().append("g")
-            .attr("class", "line")
+            .attr("class", function(d, i){
+                  return "opacity line " + d[i].Name;
+            })
             
-      lineDraw.each(function (d) {
-            Name = d[0].Name
+      lineDraw.each(function (d, i) {
+            Name = d[i].Name
             d3.select(this).append("path")
                   .attr("d", function (b) {
                         return line(b)
@@ -517,7 +522,10 @@ d3.json("/data1.json", function (error, Data) {
                   }
             }))
             .enter().append("g")
-            .attr("class", "legend")            
+            .attr("class", "legend")           
+            .attr("data-ctype", function (d) {
+                  return d.Name;
+            })           
             .attr("transform", function (d, i) {
                   return "translate(0," + (-20) + ")";
             })
@@ -529,6 +537,19 @@ d3.json("/data1.json", function (error, Data) {
             })
             .on("mouseout", function (d) {
                   divTooltip.style("display", "none");
+            })
+            .on('click', function(){
+                  var current = $(this).data('ctype');
+                  if ($(this).hasClass('show')){
+                        $('#barchart').find('.opacity').css('opacity',1);
+                        $(this).removeClass('show');
+                  }
+                  else{
+                        $('.legendHolder .legend').removeClass('show');
+                        $(this).addClass('show');
+                        $('#barchart').find('.opacity').css('opacity',0.3);
+                        $('.' + current).css('opacity',1);
+                  }
             })
             .each(function (d, i) {
                   //  Legend Symbols
