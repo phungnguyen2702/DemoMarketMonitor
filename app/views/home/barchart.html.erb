@@ -4,7 +4,7 @@
             border-radius: 50%;
             text-overflow: ellipsis;
             white-space: pre;
-            fill: rgb(119, 119, 119) !important;
+            color: rgb(119, 119, 119) !important;
             font-family: "Segoe UI", helvetica, arial, sans-serif;
             font-size: 10px;
             padding-left: 1px;
@@ -81,8 +81,9 @@
             height: auto;
             background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
             color: white;
-            font-size: 12px;
+            font: 12px;
             padding: 5px;
+            display: none;
       }
       .toolTip .arrow { 
             border-top: 7px solid transparent;
@@ -143,6 +144,7 @@ function DataSegregator(array, on) {
 d3.json("/data1.json", function (error, Data) {
       if (error) throw error;
 
+      // Config View SVG
       var margin = {
                   top: 20,
                   right: 30,
@@ -153,13 +155,7 @@ d3.json("/data1.json", function (error, Data) {
             height = 500 - margin.top - margin.bottom;
 
       var textWidthHolder = 0;
-      /// Adding Date in LineCategory
-      Data.forEach(function (d) {
-            d.LineCategory.forEach(function (b) {
-                  b.Date = d.Date;
-            })
-      });
-      var Categories = new Array();
+
       // Extension method declaration
       var x0 = d3.scale.ordinal()
             .rangeRoundBands([0, width], .1);
@@ -219,6 +215,14 @@ d3.json("/data1.json", function (error, Data) {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+      /// Adding Date in LineCategory
+      Data.forEach(function (d) {
+            d.LineCategory.forEach(function (b) {
+                  b.Date = d.Date;
+            })
+      });
+      var Categories = new Array();
+
       // Bar Data categories
       Data.forEach(function (d) {
             d.Categories.forEach(function (b) {
@@ -253,31 +257,47 @@ d3.json("/data1.json", function (error, Data) {
 
       // Line Coloring
       LineColor = d3.scale.ordinal();
+
       LineColor.domain(Categories.filter(function (d) {
             return d.Type == "line"
       }).map(function (d) {
             return d.Name
       }));
+
       LineColor.range(["#fd625e", "#06bf00", "#98bdc5", "#671919", "#0b172b"])
+
+      // Scale position X and Y in SVG
+
       x0.domain(Data.map(function (d) {
             return d.Date;
       }));
+
       x1.domain(Categories.filter(function (d) {
             return d.Type == "bar"
       }).map(function (d) {
             return d.Name
       })).rangeRoundBands([0, x0.rangeBand()]);
+
       y.domain([0, d3.max(Data, function (d) {
             return d3.max(d.Categories, function (d) {
                   return d.Value;
             });
       })]);
 
+      // Tooltip
+
+      var divTooltip = d3.select("body")
+            .append("div")
+            .attr("class", "toolTip");
+
+      // Generate x axis
+
       svg.append("g")
             .data(Data)
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
+            //Hover text x axis
             .on("mousemove", function (d) {
                   divTooltip.style("left", d3.event.pageX + 10 + "px");
                   divTooltip.style("top", d3.event.pageY - 25 + "px");
@@ -289,15 +309,13 @@ d3.json("/data1.json", function (error, Data) {
             });
 
       svg.append("g")
-            .attr("class", "y axis")
-            .attr("transform", "translate(" + width + ",0)")
-
-      svg.append("g")
             .attr("class", "grid")
             .call(make_y_axis()
                   .tickSize(-width, 0, 0)
                   .tickFormat("")
             )
+
+      // Generate y axis
 
       svg.append("g")
             .attr("class", "y axis")
@@ -320,6 +338,7 @@ d3.json("/data1.json", function (error, Data) {
                   divTooltip.style("display", "none");
             });
             
+      // Hover Text y axis
       svg.selectAll(".y.axis .tick text")
             .on("mousemove", function () {
                   divTooltip.style("left", d3.event.pageX + 10 + "px");
@@ -331,7 +350,12 @@ d3.json("/data1.json", function (error, Data) {
                   divTooltip.style("display", "none");
             });
 
-      var state = svg.selectAll(".state")
+      // Start Draw Categories
+      // Get Path Type Bar
+
+      var state = svg.append("g")
+            .attr("class", "bar")
+            .selectAll(".state")
             .data(Data)
             .enter().append("g")
             .attr("class", "state")
@@ -339,14 +363,14 @@ d3.json("/data1.json", function (error, Data) {
                   return "translate(" + x0(d.Date) + ",0)";
             });
 
-      var divTooltip = d3.select("body")
-            .append("div")
-            .attr("class", "toolTip");
+      // Draw Bar Categories
+
       state.selectAll("rect")
             .data(function (d) {
                   return d.Categories;
             })
-            .enter().append("rect")
+            .enter()
+            .append("rect")
             .attr("width", x1.rangeBand())
             .attr("x", function (d) {
                   return x1(d.Name);
@@ -376,13 +400,16 @@ d3.json("/data1.json", function (error, Data) {
                         return i(t);
                   }
             });
-            state.append("rect").attr("class", "textbar");
+
+      // Draw label of text
+
       state.selectAll("text")
             .data(function (d) {
                   return d.Categories;
             })
             .enter()
             .append("rect")
+            .attr("class", "labelTextbar")
             .style("fill", "white")
             .style("fill-opacity",0.7)
             .attr("rx",4)
@@ -395,6 +422,8 @@ d3.json("/data1.json", function (error, Data) {
             })
             .attr("width",43)
             .attr("height",15);
+
+      // Draw text
       state.selectAll("text")
             .data(function (d) {
                   return d.Categories;
@@ -412,77 +441,73 @@ d3.json("/data1.json", function (error, Data) {
             .text(function (d) {
                   return d.Value;
             });
-      // drawaing lines
-      var bisect = d3.bisector(function (d) {
-            return d.x;
-      }).left;
-      var xScale = d3.scaleLinear()
-            .domain([0, width])
-            .range([0, width]);
-      var div = d3.select("body").append("div")
-            .style("opacity", 0);
-      svg.selectAll(".lines")
+
+      // End Draw Categories
+
+      // Start Draw lineCategories
+
+      var lineDraw = svg.selectAll(".line")
             .data(lineData)
             .enter().append("g")
             .attr("class", "line")
-            .each(function (d) {
-                  Name = d[0].Name
-                  d3.select(this).append("path")
-                        .attr("d", function (b) {
-                              return line(b)
-                        })
-                        .style({
-                              "stroke-width": "2px",
-                              "fill": "none"
-                        })
-                        .style("stroke", LineColor(Name))
-                        .on("mouseover", function (d) {
-                              var mouseX = d3.mouse(this);
-                              var x = xScale.invert(mouseX[0]);
-                              var index = getIndex(d, x);
-                              var pos = index;
-                              if ((d[index].posX + d[index + 1].posX) / 2 < x) {
-                                    pos += 1;
-                              }
-                              divTooltip.html("<div class='arrow'></div><div>" + d[pos].Date + "<br/>" + d[pos].Value + "</div>")
-                              divTooltip.style("left", d3.event.pageX + 10 + "px");
-                              divTooltip.style("top", d3.event.pageY - 15 + "px");
-                              divTooltip.style("display", "inline-block");
-                        })
-                        .on("mouseout", function (d) {
-                              divTooltip.style("display", "none");
-                        })
-                        .text(function (d) {
-                              return 1000;
-                        })
-                        .transition().duration(1500);
-                  for(var i=0;i < d.length;i++) {  
-                        d3.select(".line")
-                              .append("rect")
-                              .style("fill", "white")
-                              .style("fill-opacity",0.7)
-                              .attr("rx",4)
-                              .attr("ry",4)
-                              .attr("x", d[i].posX-20)
-                              .attr("y",  d[i].posY +8)
-                              .attr("width",43)
-                              .attr("height",15);
-                        d3.select(".line")
-                              .append("text")
-                              .attr("class", "textbar")
-                              .attr("text-anchor", "middle")
-                              .attr("x", d[i].posX)
-                              .attr("y",  d[i].posY +20)
-                              .text(d[i].Value);
-                        
-                  }
-            })
-            .style("shape-rendering", "geometricPrecision");
+            
+      lineDraw.each(function (d) {
+            Name = d[0].Name
+            d3.select(this).append("path")
+                  .attr("d", function (b) {
+                        return line(b)
+                  })
+                  .style({
+                        "stroke-width": "2px",
+                        "fill": "none"
+                  })
+                  .style("stroke", LineColor(Name))
+                  .on("mouseover", function (d) {
+                        var mouseX = d3.mouse(this);
+                        var index = getIndex(d, mouseX[0]);
+                        var pos = index;
+                        if ((d[index].posX + d[index + 1].posX) / 2 < mouseX[0]) {
+                              pos += 1;
+                        }
+                        divTooltip.html("<div class='arrow'></div><div>" + d[pos].Date + "<br/>" + d[pos].Value + "</div>")
+                        divTooltip.style("left", d3.event.pageX + 10 + "px");
+                        divTooltip.style("top", d3.event.pageY - 15 + "px");
+                        divTooltip.style("display", "inline-block");
+                  })
+                  .on("mouseout", function (d) {
+                        divTooltip.style("display", "none");
+                  })
+                  .text(function (d) {
+                        return 1000;
+                  })
+                  .transition().duration(1500);
+            for(var i=0;i < d.length;i++) {  
+                  d3.select(".line")
+                        .append("rect")
+                        .style("fill", "white")
+                        .style("fill-opacity",0.7)
+                        .attr("rx",4)
+                        .attr("ry",4)
+                        .attr("x", d[i].posX-20)
+                        .attr("y",  d[i].posY +8)
+                        .attr("width",43)
+                        .attr("height",15);
+                  d3.select(".line")
+                        .append("text")
+                        .attr("class", "textbar")
+                        .attr("text-anchor", "middle")
+                        .attr("x", d[i].posX)
+                        .attr("y",  d[i].posY +20)
+                        .text(d[i].Value);
+                  
+            }
+      })
+      .style("shape-rendering", "geometricPrecision");
 
-      // Legends
+      // End Draw lineCategories
 
+      // Start Draw Legends
 
-      //------------------------------------------
       var LegendHolder = svg.append("g").attr("class", "legendHolder");
       LegendHolder.selectAll(".legend")
             .data(Categories.map(function (d) {
@@ -546,5 +571,7 @@ d3.json("/data1.json", function (error, Data) {
             thisWidth = d3.select(this).node().getBBox().width;
             return "translate(" + ((width) / 2 - thisWidth / 2) + ",0)";
       })
+      
+      // End Draw Legend
 });
 </script>
