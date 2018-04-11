@@ -686,6 +686,13 @@ d3.json("/data1.json", function (error, Data) {
       
       // End Draw Legend
 
-      console.log(Data[0]);
+      function del_clone() {
+            var obj = $('#barchart > g');
+            var n = $(obj).length;
+            for (var i = 1; i < n; i++) { // Iterate on attributes and skip on "id"
+                  $(obj[i]).remove();
+            }
+      }
+      del_clone();
 });
 </script>
