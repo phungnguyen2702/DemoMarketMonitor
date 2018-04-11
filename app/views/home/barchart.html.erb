@@ -39,8 +39,15 @@ body {
       line-height: 1;
       font: 12px  helvetica, arial, sans-serif;
       fill: rgb(119, 119, 119);
+      user-select: none;
+      pointer-events: none;
 }
-
+.labelTextBar{
+      user-select: none;
+      pointer-events: none;
+      fill: white;
+      fill-opacity: 0.7;
+}
 .x.axis path {
       display: none;
 }
@@ -444,16 +451,14 @@ d3.json("/data1.json", function (error, Data) {
                   }
             });
 
-      // Draw label of text
+      // Draw label of text   
       state.selectAll("text")
             .data(function (d) {
                   return d.Categories;
             })
             .enter()
             .append("rect")
-            .attr("class", "labelTextbar")
-            .style("fill", "white")
-            .style("fill-opacity",0.7)
+            .attr("class", "labelTextBar")
             .attr("rx",4)
             .attr("ry",4)
             .attr("x", function (d) {
@@ -572,8 +577,7 @@ d3.json("/data1.json", function (error, Data) {
             for(var i=0;i < d.length;i++) {  
                   d3.select(".line")
                         .append("rect")
-                        .style("fill", "white")
-                        .style("fill-opacity",0.7)
+                        .attr("class","labelTextBar")
                         .attr("rx",4)
                         .attr("ry",4)
                         .attr("x", function(){
