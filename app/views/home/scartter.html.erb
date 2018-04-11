@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<%= link_to  "Home", root_path, class: "linkx" %>
+<%= link_to  "Line and Clustered Chart", root_path, class: "linkx" %><br>
 <style>
 .legend {
   border-radius: 50%;
@@ -20,7 +18,6 @@ body {
   padding: 0;
   font-family: 'Segoe UI',helvetica,arial,sans-serif;
   color: #666;
-  /*background-color: #eaeaea;*/
   font-size: 16px;
   height: 100%;
   width: 100%;
@@ -45,54 +42,65 @@ body {
   line-height: 1;
   font: 12px  helvetica, arial, sans-serif;
   fill: rgb(119, 119, 119);
+  user-select: none;
+  pointer-events: none;
 }
-
+.labelTextBar{
+  user-select: none;
+  pointer-events: none;
+  fill: white;
+  fill-opacity: 0.7;
+}
+.label {
+  fill: rgb(119, 119, 119);
+  font-size: 15px;
+}
 .grid {
-      stroke: lightgrey
+  stroke: lightgrey
 }
 .tick {
-      opacity: 0.7;
-      text-anchor: end;
-      fill: rgb(119, 119, 119);
-      font-size: 11px;
+  opacity: 0.7;
+  text-anchor: end;
+  fill: rgb(119, 119, 119);
+  font-size: 11px;
 
 }
 .grid path {
-      stroke-width: 0;
+  stroke-width: 0;
 } 
 .toolTip {
-      font-family: 'Segoe UI',helvetica,arial,sans-serif;
-      position: absolute;
-      /*min-width: 200px;*/
-      height: auto;
-      background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
-      color: white;
-      font-size: 12px;
-      padding: 5px;
-      display: none;
+  font-family: 'Segoe UI',helvetica,arial,sans-serif;
+  position: absolute;
+  /*min-width: 200px;*/
+  height: auto;
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 12px;
+  padding: 5px;
+  display: none;
 }
 .toolTip .arrow { 
-      border-top: 7px solid transparent;
-      border-bottom: 7px solid transparent;
-      border-right: 7px solid rgba(0, 0, 0, 0.8);
-      position: absolute;
-      left: -7px;
-      top: 25%;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 7px solid rgba(0, 0, 0, 0.8);
+  position: absolute;
+  left: -7px;
+  top: 25%;
 }
 .toolTip.left .arrow { 
-      left: auto;
-      right: -7px;
-      border-right: none;
-      border-left: 7px solid rgba(0, 0, 0, 0.8);
+  left: auto;
+  right: -7px;
+  border-right: none;
+  border-left: 7px solid rgba(0, 0, 0, 0.8);
 }
 .toolTip .wrap .row{
-      display: table-row;
+  display: table-row;
 }
 .toolTip .wrap .row .col-left{
-      text-align: right;
-      padding-right: 5px;
-      display: table-cell;
-      word-wrap: break-word;
+  text-align: right;
+  padding-right: 5px;
+  display: table-cell;
+  word-wrap: break-word;
 }
 .toolTip .wrap .row .col-right{
   font-weight: bold;
@@ -163,7 +171,7 @@ function make_x_axis() {
     .orient("bottom")
     .ticks(5)
 }
-d3.csv("/giniDummy.csv", function (error, data) {
+d3.csv("/dataScatter.csv", function (error, data) {
   if (error) throw error;
 
   var subset = data.filter(function (el) {
@@ -189,9 +197,8 @@ d3.csv("/giniDummy.csv", function (error, data) {
     .attr("transform", "translate(0," + height + ")")
     .call(xAxis)
     .append("text")
-    .style("fill", "gray")
     .attr("class", "label")
-    .attr("x", width - width/2.5)
+    .attr("x", width/2 + 30)
     .attr("y", 33)
     .style("text-anchor", "end")
     .text("Product Concentration")
@@ -211,8 +218,7 @@ d3.csv("/giniDummy.csv", function (error, data) {
     .append("text")
     .attr("class", "label")
     .attr("transform", "rotate(-90)")
-    .attr("x", -120)
-    .style("fill", "gray")
+    .attr("x", -height/3)
     .attr("y", -45)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
@@ -292,9 +298,7 @@ svg.selectAll(".dot")
     .data(subset)
     .enter()
     .append("rect")
-    .attr("class", "labelTextbar")
-    .style("fill", "white")
-    .style("fill-opacity",0.7)
+    .attr("class", "labelTextBar")
     .attr("rx",4)
     .attr("ry",4)
     .attr("x", function (d) {
@@ -309,6 +313,7 @@ svg.selectAll(".dot")
     .data(subset)
     .enter()
     .append("text")
+    .attr("class","textbar")
     .attr("x", function (d) {
       return x(d.ProductConcentration)+9;
     })
@@ -319,7 +324,6 @@ svg.selectAll(".dot")
       return d.TotalValue + " ";
     })
     .attr("font-size", "13px")
-    .attr("fill", "#777777");
 
 
   var textWidthHolder = 0;
