@@ -1,7 +1,6 @@
-<%= link_to  "Next", home_scartter_path, class: "linkx" %>
+<%= link_to  "Scatter Chart", scartter_path, class: "linkx" %><br>
 <style>
 .legend {
-      border-radius: 50%;
       text-overflow: ellipsis;
       white-space: pre;
       fill: rgb(119, 119, 119) !important;
@@ -12,7 +11,7 @@
 }
 
 .linkx {
-      font-size: 20px;
+      font-size: 17px;
 }
 
 body {
@@ -20,7 +19,6 @@ body {
       padding: 0;
       font-family: 'Segoe UI',helvetica,arial,sans-serif;
       color: #666;
-      /*background-color: #eaeaea;*/
       font-size: 16px;
       height: 100%;
       width: 100%;
@@ -119,8 +117,21 @@ svg text.label {
       display: table-cell;
       word-wrap: break-word;
 }
+.nameChart{
+      width: 960px;
+      visibility: visible;
+      text-align: center;
+      background-color: rgb(208, 238, 247);
+      color: rgb(55, 70, 73);
+      font-size: 16px;
+      font-family: Arial;
+      height: 18.75px;
+}
 </style>
+<div>
+<div class="nameChart">Max, Min and Benchmark Prices across Market</div>
 <svg id="barchart"></svg>
+</div>
 <script>
 function getTextWidth(text, fontSize, fontName) {
       c = document.createElement("canvas");
@@ -167,7 +178,7 @@ function DataSegregator(array, on) {
 
       return SegData;
 }
-d3.json("/data1.json", function (error, Data) {
+d3.json("/dataGroup.json", function (error, Data) {
       if (error) throw error;
 
       // Config View SVG
@@ -234,13 +245,7 @@ d3.json("/data1.json", function (error, Data) {
             .scale(y)
             .orient("left")
             .tickFormat(d3.format(".2s"));
-
-      var svg = d3.select("#barchart")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+      
       /// Adding Date in LineCategory
       Data.forEach(function (d) {
             d.LineCategory.forEach(function (b) {
@@ -317,6 +322,13 @@ d3.json("/data1.json", function (error, Data) {
             .attr("class", "toolTip");
 
       // Generate x axis
+      if ($('#barchart #wrap_chart').length == 0){
+      var svg = d3.select("#barchart")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("id","wrap_chart")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       svg.append("g")
             .data(Data)
@@ -585,7 +597,7 @@ d3.json("/data1.json", function (error, Data) {
                               return d[i].lb_pos_x;
                         })
                         .attr("y", function(){
-                              d[i].lb_pos_y = d[i].posY +8;
+                              d[i].lb_pos_y = d[i].posY ;
                               d[i].lb_pos_y = DrawLabel(d[i].lb_pos_y, Data[i]);
                               //d[i].space_change = posY_current - d[i].lb_pos_y;
                               return d[i].lb_pos_y;
@@ -689,14 +701,6 @@ d3.json("/data1.json", function (error, Data) {
       })
       
       // End Draw Legend
-
-      function del_clone() {
-            var obj = $('#barchart > g');
-            var n = $(obj).length;
-            for (var i = 1; i < n; i++) { // Iterate on attributes and skip on "id"
-                  $(obj[i]).remove();
-            }
       }
-      del_clone();
 });
 </script>
