@@ -3,4 +3,4 @@
 {"Date": "2016-06-17", "Categories": [{ "Name": "Min Price", "Value": 236 },{ "Name": "Max Price", "Value": 368 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 281}]},
 {"Date": "2016-06-18", "Categories": [{ "Name": "Min Price", "Value": 330 },{ "Name": "Max Price", "Value": 423 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 360}]},
 {"Date": "2016-06-19", "Categories": [{ "Name": "Min Price", "Value": 500 },{ "Name": "Max Price", "Value": 601 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 550}]},
-{"Date": "2016-06-20", "Categories": [{ "Name": "Min Price", "Value": 461 },{ "Name": "Max Price", "Value": 400 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 422}]}]
+{"Date": "2016-06-20", "Categories": [{ "Name": "Min Price", "Value": 400 },{ "Name": "Max Price", "Value": 461 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 422}]}]

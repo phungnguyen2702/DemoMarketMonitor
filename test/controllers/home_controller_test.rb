@@ -6,8 +6,8 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get scartter" do
-    get home_scartter_url
+  test "should get scatter" do
+    get home_scatter_url
     assert_response :success
   end
 

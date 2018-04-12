@@ -2,6 +2,6 @@ class HomeController < ApplicationController
   def barchart
   end
 
-  def scartter
+  def scatter
   end
 end

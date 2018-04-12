@@ -1,0 +1,123 @@
+<%= link_to  "Line and Clustered Chart", root_path, class: "linkx" %><br>
+<style>
+.legend {
+  border-radius: 50%;
+  text-overflow: ellipsis;
+  white-space: pre;
+  fill: rgb(119, 119, 119) !important;
+  font-family: "Segoe UI", helvetica, arial, sans-serif;
+  font-size: 10px;
+  padding-left: 1px;
+  padding-right: 4px;
+}
+.linkx{
+  font-size: 17px; 
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI',helvetica,arial,sans-serif;
+  color: #666;
+  font-size: 16px;
+  height: 100%;
+  width: 100%;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+}
+
+#scatterChart {
+  width: 960px;
+  height: 500px;
+  position: absolute;
+}
+.textbar {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+  fill-opacity: 0.7;
+  position: absolute;
+  line-height: 1;
+  font: 12px  helvetica, arial, sans-serif;
+  fill: rgb(119, 119, 119);
+  user-select: none;
+  pointer-events: none;
+}
+.labelTextBar{
+  user-select: none;
+  pointer-events: none;
+  fill: white;
+  fill-opacity: 0.7;
+}
+.label {
+  fill: rgb(119, 119, 119);
+  font-size: 15px;
+}
+.grid {
+  stroke: lightgrey
+}
+.tick {
+  opacity: 0.7;
+  text-anchor: end;
+  fill: rgb(119, 119, 119);
+  font-size: 11px;
+
+}
+.grid path {
+  stroke-width: 0;
+} 
+.toolTip {
+  font-family: 'Segoe UI',helvetica,arial,sans-serif;
+  position: absolute;
+  /*min-width: 200px;*/
+  height: auto;
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 12px;
+  padding: 5px;
+  display: none;
+}
+.toolTip .arrow { 
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 7px solid rgba(0, 0, 0, 0.8);
+  position: absolute;
+  left: -7px;
+  top: 25%;
+}
+.toolTip.left .arrow { 
+  left: auto;
+  right: -7px;
+  border-right: none;
+  border-left: 7px solid rgba(0, 0, 0, 0.8);
+}
+.toolTip .wrap .row{
+  display: table-row;
+}
+.toolTip .wrap .row .col-left{
+  text-align: right;
+  padding-right: 5px;
+  display: table-cell;
+  word-wrap: break-word;
+}
+.toolTip .wrap .row .col-right{
+  font-weight: bold;
+  display: table-cell;
+  word-wrap: break-word;
+}
+.nameScatterChart{
+  width: 960px;
+  visibility: visible;
+  text-align: center;
+  background-color: rgb(208, 238, 247);
+  color: rgb(55, 70, 73);
+  font-size: 16px;
+  font-family: Arial;
+  height: 18.75px;
+}
+</style>
+<div>
+<div class="nameScatterChart"></div>
+<svg id="scatterChart"></svg>
+</div>

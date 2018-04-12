@@ -18,14 +18,13 @@
     <script src="https://d3js.org/d3-time.v1.min.js"></script>
     <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
     <script src="https://d3js.org/d3-scale.v2.min.js"></script>
-
-    <script src="/line_clustered_chart.js"></script>
-    <script src="/scatter_chart.js"></script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body style="margin-top: 100px;">
     <%= yield %>
+    <script src="/line_clustered_chart.js"></script>
+    <script src="/scatter_chart.js"></script>
   </body>
 </html>
