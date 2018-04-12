@@ -1,6 +1,20 @@
-[{"Date": "2016-06-14", "Categories": [{ "Name": "Min Price", "Value": 321 },{ "Name": "Max Price", "Value": 368 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 330}]},
-{"Date": "2016-06-15", "Categories": [{ "Name": "Min Price", "Value": 123 },{ "Name": "Max Price", "Value": 521 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 318}]},
-{"Date": "2016-06-17", "Categories": [{ "Name": "Min Price", "Value": 236 },{ "Name": "Max Price", "Value": 368 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 281}]},
-{"Date": "2016-06-18", "Categories": [{ "Name": "Min Price", "Value": 330 },{ "Name": "Max Price", "Value": 423 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 360}]},
-{"Date": "2016-06-19", "Categories": [{ "Name": "Min Price", "Value": 500 },{ "Name": "Max Price", "Value": 601 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 550}]},
-{"Date": "2016-06-20", "Categories": [{ "Name": "Min Price", "Value": 400 },{ "Name": "Max Price", "Value": 461 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 422}]}]
+[
+	{
+		"ID": "market",
+		"Data": [{"Date": "2016-06-14", "Categories": [{ "Name": "Min Price", "Value": 321 },{ "Name": "Max Price", "Value": 368 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 330}]},
+		{"Date": "2016-06-15", "Categories": [{ "Name": "Min Price", "Value": 123 },{ "Name": "Max Price", "Value": 521 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 318}]},
+		{"Date": "2016-06-17", "Categories": [{ "Name": "Min Price", "Value": 236 },{ "Name": "Max Price", "Value": 368 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 281}]},
+		{"Date": "2016-06-18", "Categories": [{ "Name": "Min Price", "Value": 330 },{ "Name": "Max Price", "Value": 423 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 360}]},
+		{"Date": "2016-06-19", "Categories": [{ "Name": "Min Price", "Value": 500 },{ "Name": "Max Price", "Value": 601 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 550}]},
+		{"Date": "2016-06-20", "Categories": [{ "Name": "Min Price", "Value": 400 },{ "Name": "Max Price", "Value": 461 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 422}]}]
+	},
+	{
+		"ID": "organization",
+		"Data": [{"Date": "2016-06-14", "Categories": [{ "Name": "Min Price", "Value": 500 },{ "Name": "Max Price", "Value": 443 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 123}]},
+		{"Date": "2016-06-15", "Categories": [{ "Name": "Min Price", "Value": 300 },{ "Name": "Max Price", "Value": 150 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 321}]},
+		{"Date": "2016-06-17", "Categories": [{ "Name": "Min Price", "Value": 240 },{ "Name": "Max Price", "Value": 599 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 234}]},
+		{"Date": "2016-06-18", "Categories": [{ "Name": "Min Price", "Value": 200 },{ "Name": "Max Price", "Value": 255 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 543}]},
+		{"Date": "2016-06-19", "Categories": [{ "Name": "Min Price", "Value": 400 },{ "Name": "Max Price", "Value": 355 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 232}]},
+		{"Date": "2016-06-20", "Categories": [{ "Name": "Min Price", "Value": 340 },{ "Name": "Max Price", "Value": 555 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 333}]}]
+	}
+]
