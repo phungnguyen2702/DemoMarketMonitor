@@ -51,6 +51,21 @@ var divTooltip = d3.select("body")
       .append("div")
       .attr("class", "toolTip");
 
+// Back delete duplicate
+$(window).ready(function(){
+      var obj_svg = $('body svg');
+      $(obj_svg).each(function(){
+            var item_svg = $(this).find('.wrap_chart');
+            if ($(item_svg).length > 1){
+                  $(item_svg[0]).remove();
+            }
+      })
+      if ($('body .toolTip').length > 1){
+            obj = $('body .toolTip');
+            $(obj[0]).remove();
+      }
+})
+
 d3.json("/dataGroup.json", function (error, Data) {
       if (error) throw error;
 
@@ -192,18 +207,8 @@ d3.json("/dataGroup.json", function (error, Data) {
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("id", "wrap_chart")
+            .attr("class", "wrap_chart")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      // Back delete duplicate
-      if ($('#barchart #wrap_chart').length > 1){
-            var obj = $('#barchart #wrap_chart');
-            $(obj[0]).remove();
-      }
-      if ($('body .toolTip').length > 1){
-            obj = $('body .toolTip');
-            $(obj[0]).remove();
-      }
 
       d3.selectAll("div .nameBarChart")
             .append("text")
