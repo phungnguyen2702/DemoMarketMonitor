@@ -53,10 +53,6 @@ d3.selectAll("div .nameScatterChart")
 
 var dollarFormatter = d3.format(",.0f");
 
-var divTooltip = d3.select("body")
-  .append("div")
-  .attr("class", "toolTip");
-
 function make_y_axis() {
   return d3.svg.axis()
     .scale(y)
