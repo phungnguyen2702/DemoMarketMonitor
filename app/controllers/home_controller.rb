@@ -4,4 +4,7 @@ class HomeController < ApplicationController
 
   def scatter
   end
+
+  def index
+  end
 end
