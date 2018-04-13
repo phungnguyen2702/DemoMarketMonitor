@@ -1,10 +1,24 @@
 <%= link_to  "Scatter Chart", scatter_path, class: "linkx" %><br>
 <%= link_to  "Line and Clustered Chart", barchart_path, class: "linkx" %><br>
-<div>
-  <div class="nameChart nameBarChart market"></div>
-  <svg id="market" class="barchart"></svg>
-</div>
-<div>
-  <div class="nameChart nameBarChart organization"></div>
-  <svg id="organization" class="barchart"></svg>
+<div class="container">
+	<div class="rows">
+		<div class="item">
+			<div class="nameChart nameBarChart market"></div>
+  			<svg id="market" class="barchart"></svg>
+		</div>
+		<div class="item">
+			<div class="nameChart nameScatterChart market"></div>
+			<svg id="scattermarket" class="scatterChart"></svg>
+		</div>
+	</div>
+	<div class="rows">
+		<div class="item">
+			<div class="nameChart nameBarChart organization"></div>
+  			<svg id="organization" class="barchart"></svg>
+		</div>
+		<div class="item">
+			<div class="nameChart nameScatterChart organization"></div>
+			<svg id="scatterorganization" class="scatterChart"></svg>
+		</div>
+	</div>
 </div>
