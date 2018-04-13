@@ -254,8 +254,8 @@
         "SubCategory": "Furnishings",
         "Category": "Furniture",
         "TotalValue": 3563,
-        "ProductConcentration": 0.398388252,
-        "CustomerConcentration": 0.371875197
+        "ProductConcentration": 0.198388252,
+        "CustomerConcentration": 0.171875197
       },
       {
         "Metric": "Quantity",
@@ -406,8 +406,8 @@
         "SubCategory": "Binders",
         "Category": "Office Supplies",
         "TotalValue": 203412.73,
-        "ProductConcentration": 0.68955334,
-        "CustomerConcentration": 0.54224581
+        "ProductConcentration": 0.18955334,
+        "CustomerConcentration": 0.24224581
       }
     ]
 },
