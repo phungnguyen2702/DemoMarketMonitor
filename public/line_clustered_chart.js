@@ -14,7 +14,7 @@ function DataSegregator(array, on) {
                   keys.splice(keys.indexOf("valueOf"), 1);
                   keys.splice(keys.indexOf("keys"), 1);
                   return keys.length == 0 ? -1 : d3.max(keys, function (d) {
-                        return thisObject[d]
+                        return thisObject[d];
                   })
             },
             keys: function () {
@@ -150,7 +150,6 @@ d3.json("/dataGroup.json", function (error, arrData) {
       var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
-            .tickFormat(d => (d.year +":"+ d.val))
             .tickFormat(d3.format(".2s"));
       for (var _i = 0; _i < arrData.length; _i++){
 
@@ -168,13 +167,6 @@ d3.json("/dataGroup.json", function (error, arrData) {
             Data.forEach(function (d) {
                   d.Categories.forEach(function (b) {
                         b.Date = d.Date;
-                        // if (Categories.findIndex(function (c) {
-                        //             return c.Name === b.Name
-                        //       }) == -1) {
-                        //       b.Type = "bar";
-                        //       //console.log(JSON.stringify(b))
-                        //       Categories.push(b)
-                        // }
                         var flag = false;
                         for (var i = 0; i < Categories.length; i++){
                               if (Categories[i].Name === b.Name)

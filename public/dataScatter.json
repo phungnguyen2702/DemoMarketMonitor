@@ -1,0 +1,410 @@
+[
+  {
+    "Metric": "Cost",
+    "SubCategory": "Copiers",
+    "Category": "Technology",
+    "TotalValue": 93910.21,
+    "ProductConcentration": 0.030137063,
+    "CustomerConcentration": 0.087770725
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Machines",
+    "Category": "Technology",
+    "TotalValue": 185853.87,
+    "ProductConcentration": 0.727932545,
+    "CustomerConcentration": 0.234178493
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Supplies",
+    "Category": "Office Supplies",
+    "TotalValue": 47862.64,
+    "ProductConcentration": 0.869843455,
+    "CustomerConcentration": 0.967766883
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Bookcases",
+    "Category": "Furniture",
+    "TotalValue": 118352.55,
+    "ProductConcentration": 0.185026777,
+    "CustomerConcentration": 0.627607548
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Envelopes",
+    "Category": "Office Supplies",
+    "TotalValue": 9512.23,
+    "ProductConcentration": 0.080804313,
+    "CustomerConcentration": 0.914777644
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Fasteners",
+    "Category": "Office Supplies",
+    "TotalValue": 2074.76,
+    "ProductConcentration": 0.303772145,
+    "CustomerConcentration": 0.029366578
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Tables",
+    "Category": "Furniture",
+    "TotalValue": 224691.01,
+    "ProductConcentration": 0.742161958,
+    "CustomerConcentration": 0.886106234
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Labels",
+    "Category": "Office Supplies",
+    "TotalValue": 6940.06,
+    "ProductConcentration": 0.06212297,
+    "CustomerConcentration": 0.655249515
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Appliances",
+    "Category": "Office Supplies",
+    "TotalValue": 89394.16,
+    "ProductConcentration": 0.52971077,
+    "CustomerConcentration": 0.439508931
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Chairs",
+    "Category": "Furniture",
+    "TotalValue": 301858.94,
+    "ProductConcentration": 0.318459499,
+    "CustomerConcentration": 0.209223271
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Accessories",
+    "Category": "Technology",
+    "TotalValue": 125443.68,
+    "ProductConcentration": 0.565379441,
+    "CustomerConcentration": 0.618075232
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Art",
+    "Category": "Office Supplies",
+    "TotalValue": 20591.01,
+    "ProductConcentration": 0.746932104,
+    "CustomerConcentration": 0.232158633
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Storage",
+    "Category": "Office Supplies",
+    "TotalValue": 202564.78,
+    "ProductConcentration": 0.665022485,
+    "CustomerConcentration": 0.230177646
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Phones",
+    "Category": "Technology",
+    "TotalValue": 285491.32,
+    "ProductConcentration": 0.554136398,
+    "CustomerConcentration": 0.751528667
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Furnishings",
+    "Category": "Furniture",
+    "TotalValue": 78646.02,
+    "ProductConcentration": 0.159382955,
+    "CustomerConcentration": 0.775545349
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Paper",
+    "Category": "Office Supplies",
+    "TotalValue": 44425.64,
+    "ProductConcentration": 0.324886509,
+    "CustomerConcentration": 0.508537074
+  },
+  {
+    "Metric": "Cost",
+    "SubCategory": "Binders",
+    "Category": "Office Supplies",
+    "TotalValue": 173190.97,
+    "ProductConcentration": 0.469404641,
+    "CustomerConcentration": 0.035722445
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Copiers",
+    "Category": "Technology",
+    "TotalValue": 234,
+    "ProductConcentration": 0.274276433,
+    "CustomerConcentration": 0.496913378
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Machines",
+    "Category": "Technology",
+    "TotalValue": 440,
+    "ProductConcentration": 0.944733216,
+    "CustomerConcentration": 0.184394845
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Supplies",
+    "Category": "Office Supplies",
+    "TotalValue": 647,
+    "ProductConcentration": 0.612738426,
+    "CustomerConcentration": 0.868691661
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Bookcases",
+    "Category": "Furniture",
+    "TotalValue": 868,
+    "ProductConcentration": 0.65982129,
+    "CustomerConcentration": 0.104153314
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Envelopes",
+    "Category": "Office Supplies",
+    "TotalValue": 906,
+    "ProductConcentration": 0.655588953,
+    "CustomerConcentration": 0.242552112
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Fasteners",
+    "Category": "Office Supplies",
+    "TotalValue": 914,
+    "ProductConcentration": 0.897179384,
+    "CustomerConcentration": 0.813156798
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Tables",
+    "Category": "Furniture",
+    "TotalValue": 1241,
+    "ProductConcentration": 0.588528544,
+    "CustomerConcentration": 0.25189882
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Labels",
+    "Category": "Office Supplies",
+    "TotalValue": 1400,
+    "ProductConcentration": 0.924220582,
+    "CustomerConcentration": 0.084992805
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Appliances",
+    "Category": "Office Supplies",
+    "TotalValue": 1729,
+    "ProductConcentration": 0.242865421,
+    "CustomerConcentration": 0.562076032
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Chairs",
+    "Category": "Furniture",
+    "TotalValue": 2356,
+    "ProductConcentration": 0.199113972,
+    "CustomerConcentration": 0.636452213
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Accessories",
+    "Category": "Technology",
+    "TotalValue": 2976,
+    "ProductConcentration": 0.628493321,
+    "CustomerConcentration": 0.070056799
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Art",
+    "Category": "Office Supplies",
+    "TotalValue": 3000,
+    "ProductConcentration": 0.259808311,
+    "CustomerConcentration": 0.339959932
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Storage",
+    "Category": "Office Supplies",
+    "TotalValue": 3158,
+    "ProductConcentration": 0.91525319,
+    "CustomerConcentration": 0.701753169
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Phones",
+    "Category": "Technology",
+    "TotalValue": 3289,
+    "ProductConcentration": 0.516688612,
+    "CustomerConcentration": 0.814293962
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Furnishings",
+    "Category": "Furniture",
+    "TotalValue": 3563,
+    "ProductConcentration": 0.398388252,
+    "CustomerConcentration": 0.371875197
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Paper",
+    "Category": "Office Supplies",
+    "TotalValue": 5178,
+    "ProductConcentration": 0.870073481,
+    "CustomerConcentration": 0.387181538
+  },
+  {
+    "Metric": "Quantity",
+    "SubCategory": "Binders",
+    "Category": "Office Supplies",
+    "TotalValue": 5974,
+    "ProductConcentration": 0.699998865,
+    "CustomerConcentration": 0.374652073
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Copiers",
+    "Category": "Technology",
+    "TotalValue": 149528.03,
+    "ProductConcentration": 0.5500512,
+    "CustomerConcentration": 0.912443364
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Machines",
+    "Category": "Technology",
+    "TotalValue": 189238.63,
+    "ProductConcentration": 0.035090048,
+    "CustomerConcentration": 0.498680242
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Supplies",
+    "Category": "Office Supplies",
+    "TotalValue": 46673.54,
+    "ProductConcentration": 0.994928778,
+    "CustomerConcentration": 0.301969534
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Bookcases",
+    "Category": "Furniture",
+    "TotalValue": 114880,
+    "ProductConcentration": 0.787150865,
+    "CustomerConcentration": 0.316482026
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Envelopes",
+    "Category": "Office Supplies",
+    "TotalValue": 16476.4,
+    "ProductConcentration": 0.76309539,
+    "CustomerConcentration": 0.760879589
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Fasteners",
+    "Category": "Office Supplies",
+    "TotalValue": 3024.28,
+    "ProductConcentration": 0.117653971,
+    "CustomerConcentration": 0.909011521
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Tables",
+    "Category": "Furniture",
+    "TotalValue": 206965.53,
+    "ProductConcentration": 0.092302682,
+    "CustomerConcentration": 0.165237414
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Labels",
+    "Category": "Office Supplies",
+    "TotalValue": 12486.31,
+    "ProductConcentration": 0.176029563,
+    "CustomerConcentration": 0.722254254
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Appliances",
+    "Category": "Office Supplies",
+    "TotalValue": 107532.16,
+    "ProductConcentration": 0.9720534,
+    "CustomerConcentration": 0.965335051
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Chairs",
+    "Category": "Furniture",
+    "TotalValue": 328449.1,
+    "ProductConcentration": 0.499272629,
+    "CustomerConcentration": 0.976469596
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Accessories",
+    "Category": "Technology",
+    "TotalValue": 167380.32,
+    "ProductConcentration": 0.420495031,
+    "CustomerConcentration": 0.660597611
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Art",
+    "Category": "Office Supplies",
+    "TotalValue": 27118.79,
+    "ProductConcentration": 0.199819304,
+    "CustomerConcentration": 0.395589862
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Storage",
+    "Category": "Office Supplies",
+    "TotalValue": 223843.61,
+    "ProductConcentration": 0.064746832,
+    "CustomerConcentration": 0.478247767
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Phones",
+    "Category": "Technology",
+    "TotalValue": 330007.05,
+    "ProductConcentration": 0.391114051,
+    "CustomerConcentration": 0.743271657
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Furnishings",
+    "Category": "Furniture",
+    "TotalValue": 91705.16,
+    "ProductConcentration": 0.431370418,
+    "CustomerConcentration": 0.598640219
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Paper",
+    "Category": "Office Supplies",
+    "TotalValue": 78479.21,
+    "ProductConcentration": 0.436829536,
+    "CustomerConcentration": 0.40016634
+  },
+  {
+    "Metric": "Sales",
+    "SubCategory": "Binders",
+    "Category": "Office Supplies",
+    "TotalValue": 203412.73,
+    "ProductConcentration": 0.18955334,
+    "CustomerConcentration": 0.24224581
+  }
+]

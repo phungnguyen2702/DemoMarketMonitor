@@ -1,4 +1,4 @@
-d3.csv("/dataScatter.csv", function (error, data) {
+d3.json("/dataScatter.json", function (error, data) {
 console.log(data);
     if (error) throw error;
 
@@ -37,14 +37,14 @@ console.log(data);
         return d3.svg.axis()
             .scale(y)
             .orient("left")
-            .ticks(5)
+            .ticks(10)
     }
 
     function make_x_axis() {
         return d3.svg.axis()
             .scale(x)
             .orient("bottom")
-            .ticks(5)
+            .ticks(10)
     }
 
     var svg = d3.select(".scatterChart")
