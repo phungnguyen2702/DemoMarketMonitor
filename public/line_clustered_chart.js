@@ -44,9 +44,16 @@ function DataSegregator(array, on) {
       return SegData;
 }
 
+// Upercase first letter
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
+
+// 
+function kFormatter(num) {
+    return num > 999 ? (num/1000).toFixed(1) + 'k' : num
+}
+
 // Tooltip
 
 var divTooltip = d3.select("body")
@@ -55,6 +62,7 @@ var divTooltip = d3.select("body")
 
 // Back delete duplicate
 $(window).ready(function(){
+
       var obj_svg = $('body svg');
       $(obj_svg).each(function(){
             var item_svg = $(this).find('.wrap_chart');
@@ -62,7 +70,8 @@ $(window).ready(function(){
                   $(item_svg[0]).remove();
             }
       })
-      var obj_nameBar = $('body .nameBarChart')
+
+      var obj_nameBar = $('body .nameChart')
 
       $(obj_nameBar).each(function(){
             var item = $(this).find('text');
@@ -70,6 +79,7 @@ $(window).ready(function(){
                   $(item[0]).remove();
             }
       })
+
       if ($('body .toolTip').length > 1){
             obj = $('body .toolTip');
             $(obj[0]).remove();
@@ -140,6 +150,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
       var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
+            .tickFormat(d => (d.year +":"+ d.val))
             .tickFormat(d3.format(".2s"));
       for (var _i = 0; _i < arrData.length; _i++){
 
@@ -157,12 +168,22 @@ d3.json("/dataGroup.json", function (error, arrData) {
             Data.forEach(function (d) {
                   d.Categories.forEach(function (b) {
                         b.Date = d.Date;
-                        if (Categories.findIndex(function (c) {
-                                    return c.Name === b.Name
-                              }) == -1) {
+                        // if (Categories.findIndex(function (c) {
+                        //             return c.Name === b.Name
+                        //       }) == -1) {
+                        //       b.Type = "bar";
+                        //       //console.log(JSON.stringify(b))
+                        //       Categories.push(b)
+                        // }
+                        var flag = false;
+                        for (var i = 0; i < Categories.length; i++){
+                              if (Categories[i].Name === b.Name)
+                                    flag = true;
+                        }
+                        if(!flag)
+                        {
                               b.Type = "bar";
-                              //console.log(JSON.stringify(b))
-                              Categories.push(b)
+                              Categories.push(b) 
                         }
                   })
             });
@@ -170,13 +191,24 @@ d3.json("/dataGroup.json", function (error, arrData) {
             // Line Data categories
             Data.forEach(function (d) {
                   d.LineCategory.forEach(function (b) {
-                        if (Categories.findIndex(function (c) {
+
+                        var flag = false;
+                        for (var i = 0; i < Categories.length; i++){
+                              if (Categories[i].Name === b.Name)
+                                    flag = true;
+                        }
+                        if(!flag)
+                        {
+                              b.Type = "line";
+                              Categories.push(b) 
+                        }
+                        /*if (Categories.findIndex(function (c) {
                                     return c.Name === b.Name
                               }) == -1) {
                               b.Type = "line";
                               //console.log(JSON.stringify(b))
                               Categories.push(b)
-                        }
+                        }*/
                   })
             });
 
@@ -504,7 +536,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
                   })
                   .enter()
                   .append("rect")
-                  .attr("class", "labelTextbar")
+                  .attr("class", "labelTextBar")
                   .style("fill", "white")
                   .style("fill-opacity",0.7)
                   .attr("rx",4)

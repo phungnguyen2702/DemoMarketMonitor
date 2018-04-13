@@ -106,10 +106,9 @@ body {
   }
 }
 
-#scatterChart {
+.scatterChart {
   width: 960px;
   height: 500px;
-  position: absolute;
 
   .tick {
     opacity: 0.7;
@@ -127,7 +126,7 @@ body {
       fill: none;
       shape-rendering: crispEdges;
     }
-    .label {
+    .axisLabel, .label {
       fill: #777777;
       font-size: 15px;
       font-weight: 400;
