@@ -184,7 +184,8 @@ body {
   }
 }
 .legendHolder{
-
+  display: inline-flex;
+  margin: center;
   .legend {
     border-radius: 50%;
     text-overflow: ellipsis;
@@ -194,5 +195,13 @@ body {
     font-size: 10px;
     padding-left: 1px;
     padding-right: 4px;
+    display: inline-flex;
   }
+}
+.textLegend{
+  line-height: 22px;
+}
+.wrapLegend {
+  width: 960px;
+  text-align: center;
 }

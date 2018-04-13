@@ -25,11 +25,12 @@ console.log(data);
 
     var xAxis = d3.svg.axis()
         .scale(x)
-        .orient("bottom");
+        .orient("bottom")
+        .ticks(5);
 
     var yAxis = d3.svg.axis()
         .scale(y)
-        .orient("left");
+        .orient("left")
 
     var dollarFormatter = d3.format(",.0f");
 
@@ -37,14 +38,14 @@ console.log(data);
         return d3.svg.axis()
             .scale(y)
             .orient("left")
-            .ticks(10)
+            .ticks(5)
     }
 
     function make_x_axis() {
         return d3.svg.axis()
             .scale(x)
             .orient("bottom")
-            .ticks(10)
+            .ticks(5)
     }
 
     var svg = d3.select(".scatterChart")
@@ -234,10 +235,11 @@ console.log(data);
 
 
     var textWidthHolder = 0;
-    var LegendHolder = svg.append("g").attr("class", "legendHolder");
+    var LegendHolder = d3.selectAll(".legendScatterChart")
+        .attr("class", "legendHolder");
     var legend = LegendHolder.selectAll(".legend")
         .data(dataLegend)
-        .enter().append("g")
+        .enter().append("div")
         .attr("class", "legend")
         .on("mousemove", function (d) {
             divTooltip.style("left", d3.event.pageX + 10 + "px");
@@ -248,46 +250,23 @@ console.log(data);
         .on("mouseout", function (d) {
             divTooltip.style("display", "none");
         })
-        .attr("transform", function (d, i) {
-            return "translate(0," + (-20) + ")";
-        })
         .each(function (d, i) {
             //  Legend Symbols
-            d3.select(this).append("circle")
-                .attr("width", function () {
-                  return 18
-                })
-                .attr("cx", function (b) {
-                    left = (i + 1) * 15 + i * 18 + i * 55 + 10;
-                    if (i == 2)
-                        left += 10;
-                    return left;
-                })
-                .attr("cy", 9)
+            var circle = d3.select(this).append("svg")
+                .style("width","20")
+                .style("height","20");
+            circle.append("circle")
+                .attr("cx", 7)
+                .attr("cy", 10)
                 .attr("r", 7)
                 .style("fill", function (b) {
                     return color(d)
                 });
             //  Legend Text
-            d3.select(this).append("text")
-                .attr("x", function (b) {
-                    left = (i + 1) * 15 + (i + 1) * 18 + (i + 1) * 5 + textWidthHolder;
-                    return left;
-                })
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                .style("text-anchor", "start")
+            d3.select(this).append("div")
+                .attr("class","textLegend")            
                 .text(d);
-            textWidthHolder += getTextWidth(d, "10px", "Segoe UI");
         });
-
-    // Legend Placing
-    d3.selectAll(".legendHolder").attr("transform", function (d) {
-      thisWidth = d3.select(this).node().getBBox().width;
-      return "translate(" + ((width) / 2 - thisWidth / 2) + ",0)";
-    })
-
-
     function resize() {
         // Update the range of the scale with new width/height
         x.range([0, width]);
