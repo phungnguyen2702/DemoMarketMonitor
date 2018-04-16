@@ -1,0 +1,70 @@
+[{
+    "ID" : "market",
+    "Data": [
+      {
+        "Item_Description": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2",
+        "Metric": "Quantity",
+        "Manufacturer": "Copiers",
+        "Category": "2D72PT75X",
+        "Date": "Monday, September 26, 2016",
+        "TotalValue": 0,
+        "ProductConcentration": 550,
+        "CustomerConcentration": 120
+      },
+      {
+        "Item_Description": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2",
+        "Metric": "Quantity",
+        "Manufacturer": "Copiers",
+        "Category": "89A7SD989",
+        "Date": "Monday, September 26, 2016",
+        "TotalValue": 0,
+        "ProductConcentration": 360,
+        "CustomerConcentration": 220
+      },
+      {
+        "Item_Description": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2",
+        "Metric": "Quantity",
+        "Manufacturer": "Copiers",
+        "Category": "0A9S8DA0S",
+        "Date": "Monday, September 26, 2016",
+        "TotalValue": 0,
+        "ProductConcentration": 119,
+        "CustomerConcentration": 50
+      }
+    ]
+},
+{
+    "ID" : "organization",
+    "Data": [
+      {
+        "Item_Description": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2",
+        "Metric": "Quantity",
+        "Manufacturer": "Accessories",
+        "Category": "A9042KJ12",
+        "Date": "Monday, September 26, 2016",
+        "TotalValue": 2976,
+        "ProductConcentration": 120,
+        "CustomerConcentration": 210
+      },
+      {
+        "Item_Description": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2",
+        "Metric": "Quantity",
+        "Manufacturer": "Accessories",
+        "Category": "9823KKS3",
+        "Date": "Monday, September 26, 2016",
+        "TotalValue": 2976,
+        "ProductConcentration": 300,
+        "CustomerConcentration": 323
+      },
+      {
+        "Item_Description": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2",
+        "Metric": "Quantity",
+        "Manufacturer": "Accessories",
+        "Category": "90ASF9AA",
+        "Date": "Monday, September 26, 2016",
+        "TotalValue": 2976,
+        "ProductConcentration": 100,
+        "CustomerConcentration": 500
+      }
+    ]
+}]
