@@ -101,7 +101,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 		left: 50
 	},
 		width = view_width - margin.left - margin.right,
-		height = 500 - margin.top - margin.bottom;
+		height = 400 - margin.top - margin.bottom;
 
 	// Extension method declaration
 	var x0 = d3.scale.ordinal()
@@ -261,6 +261,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis)
+			
 			//Hover text x axis
 			.on("mousemove", function (d) {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
@@ -287,11 +288,11 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("y", -45)
-			.attr("x", -40)
+			.attr("x", -5)
 			.attr("class", "axisLabel")
 			.attr("dy", ".71em")
 			.attr("dx", "-7em")
-			.text("Population")
+			.text("Min Price and Max Price")
 			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");

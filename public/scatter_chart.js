@@ -5,13 +5,13 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 	var view_width = $(".container").find('.nameScatterChart').width();
 
 	var margin = {
-		top: 10,
-		right: 40,
-		bottom: 40,
+		top: 20,
+		right: 30,
+		bottom: 60,
 		left: 50
 	},
 		width = view_width - margin.left - margin.right,
-		height = 500 - margin.top - margin.bottom;
+		height = 400 - margin.top - margin.bottom;
 
 	var x = d3.scale.linear()
 		.range([0, width]);
@@ -21,10 +21,6 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 
 	var r = d3.scale.linear()
 		.range([7, 18]);
-
-	var color = d3.scale.ordinal()
-		.range(["#35978f", "#374649", "#fd625e"]);
-
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient("bottom")
@@ -34,8 +30,6 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 		.scale(y)
 		.orient("left")
 		.ticks(height / 75);
-
-	var dollarFormatter = d3.format(",.0f");
 
 	function make_y_axis() {
 		return d3.svg.axis()
@@ -52,6 +46,9 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 	}
 
 	for (var _i = 0; _i < arrData.length; _i++) {
+		var color = d3.scale.ordinal()
+		.range(["#35978f", "#374649", "#fd625e","#f2c80f","#5f6b6d","#8ad4eb","#fe9666","#a66999","#3599b8","#dfbfbf","#4ac5bb","#5f6b6d","#fb8281"]);
+
 		var data = arrData[_i].Data;
 
 		x.domain([0, d3.max(data, function (d) {
@@ -138,8 +135,6 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 			.on("mouseout", function () {
 				divTooltip.style("display", "none");
 			});
-
-
 
 		// svg.select('.x.axis')
 		//     .attr("transform", "translate(0," + height + ")")
@@ -239,7 +234,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 									</div>" +
 					"<div class='row'>\
                     <div class='col-left'>Purchase Price ($)</div>\
-                    <div class='col-right'>" + dollarFormatter(d.CustomerConcentration) + "</div>\
+                    <div class='col-right'>" + d.CustomerConcentration.toFixed(2) + "</div>\
                   </div>" +
 					"<div class='row'>\
                     <div class='col-left'>Purchase Quantity</div>\
@@ -248,7 +243,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 					(d.TotalValue > 0 ?
 					"<div class='row'>\
                     <div class='col-left'>Cost Savings Opportunity ($)</div>\
-                    <div class='col-right'>" + dollarFormatter(d.TotalValue) + "</div>\
+                    <div class='col-right'>" + d.TotalValue.toFixed(2) + "</div>\
                   </div>" : "") +
 					"</div>"
 				);
@@ -300,7 +295,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 				return y(d.CustomerConcentration);
 			})
 			.text(function (d) {
-				return dollarFormatter(d.CustomerConcentration);
+				return d.CustomerConcentration.toFixed(2);
 			})
 			.attr("font-size", "13px")
 

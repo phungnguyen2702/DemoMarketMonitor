@@ -1,8 +1,11 @@
 <%= link_to  "Scatter Chart", scatter_path, class: "linkx" %><br>
-<div>
-  <div class="nameChart nameBarChart market"></div><br>
-  <div class="wrapLegend"><div class="legendBarChart"></div></div>
-  <svg id="market" class="barchart"></svg>
+<div class="container">
+	<div class="rows">
+		<div class="item">
+			<div class="nameChart nameBarChart market"></div>
+			<div class="wrapLegend"><div class="legendBarChart market"></div></div>
+      <svg id="market" class="barchart"></svg>
+  </div>
 </div>
 <br>
 <%= link_to  "Home", root_path, class: "linkx" %>
