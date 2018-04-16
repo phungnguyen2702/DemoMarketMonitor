@@ -1,11 +1,10 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI',helvetica,arial,sans-serif;
+  font-family: 'Segoe UI', helvetica, arial, sans-serif;
   color: #666;
   font-size: 16px;
   height: 100%;
@@ -13,7 +12,7 @@ body {
 }
 
 .nameBarChart,
-.nameScatterChart{
+.nameScatterChart {
   width: 100%;
   visibility: visible;
   text-align: center;
@@ -24,8 +23,8 @@ body {
   height: 18.75px;
 }
 
-.linkx{
-  font-size: 17px; 
+.linkx {
+  font-size: 17px;
 }
 
 .textbar {
@@ -33,79 +32,64 @@ body {
   fill-opacity: 0.7;
   position: absolute;
   line-height: 1;
-  font: 12px  helvetica, arial, sans-serif;
+  font: 12px helvetica, arial, sans-serif;
   fill: rgb(119, 119, 119);
 }
 
-.labelTextBar{
+.labelTextBar {
   fill: white;
   fill-opacity: 0.7;
 }
-.container{
+
+.container {
   padding-left: 15px;
   padding-right: 15px;
-
-  .rows{
+  .rows {
     display: flex;
     flex-wrap: nowrap;
     margin-left: -15px;
     margin-right: -15px;
-
-    .item{
+    .item {
       width: 50%;
       padding-left: 15px;
       padding-right: 15px;
     }
   }
 }
-.barchart{
 
-  .wrap_chart{
-
+.barchart {
+  .wrap_chart {
     .axis {
-
-      path, line{
+      path,
+      line {
         fill: none;
         shape-rendering: crispEdges;
       }
-      
       .tick {
         opacity: 0.7;
         text-anchor: end;
         fill: rgb(119, 119, 119);
         font-size: 11px;
       }
-
       .axisLabel {
         text-anchor: end;
         fill: rgb(119, 119, 119);
         font-size: 15px;
       }
-
-      &.x{
-
-      }
-      &.y{
-
-      }
+      &.x {}
+      &.y {}
     }
-
     .grid {
       stroke: lightgrey;
-
       .grid path {
         stroke-width: 0;
       }
     }
-
-    .group-textbar{
-
-      .state{
-        
-      }
+    .group-textbar {
+      .state {}
     }
-
-    .group-textbar, .textline{
+    .group-textbar,
+    .textline {
       user-select: none;
       pointer-events: none;
     }
@@ -115,24 +99,23 @@ body {
 .scatterChart {
   /*width: 960px;
   height: 500px;*/
-
   .tick {
     opacity: 0.7;
     text-anchor: end;
     fill: #777777;
     font-size: 11px;
   }
-
   .grid {
     stroke: lightgrey;
   }
-
   .axis {
-    path, line{
+    path,
+    line {
       fill: none;
       shape-rendering: crispEdges;
     }
-    .axisLabel, .label {
+    .axisLabel,
+    .label {
       fill: #777777;
       font-size: 15px;
       font-weight: 400;
@@ -140,11 +123,11 @@ body {
     }
   }
 }
+
 /*svg {overflow-x: scroll; width: 200px;}*/
 
-
 .toolTip {
-  font-family: 'Segoe UI',helvetica,arial,sans-serif;
+  font-family: 'Segoe UI', helvetica, arial, sans-serif;
   position: absolute;
   height: auto;
   background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
@@ -152,8 +135,7 @@ body {
   font-size: 12px;
   padding: 5px;
   display: none;
-
-  .arrow { 
+  .arrow {
     border-top: 7px solid transparent;
     border-bottom: 7px solid transparent;
     border-right: 7px solid rgba(0, 0, 0, 0.8);
@@ -161,34 +143,30 @@ body {
     left: -7px;
     top: 20%;
   }
-
-  &.left .arrow { 
+  &.left .arrow {
     left: auto;
     right: -7px;
     border-right: none;
     border-left: 7px solid rgba(0, 0, 0, 0.8);
   }
-
   .wrap {
-
-    .row{
+    .row {
       display: table-row;
-
-      .col-left{
+      .col-left {
         text-align: right;
         padding-right: 5px;
         display: table-cell;
         word-wrap: break-word;
       }
-
-      .col-right{
+      .col-right {
         display: table-cell;
         word-wrap: break-word;
       }
     }
   }
 }
-.legendHolder{
+
+.legendHolder {
   display: inline-flex;
   margin-top: 10px;
   .legend {
@@ -203,9 +181,11 @@ body {
     display: inline-flex;
   }
 }
-.textLegend{
+
+.textLegend {
   line-height: 22px;
 }
+
 .wrapLegend {
   width: 100%;
   text-align: center;
