@@ -159,6 +159,8 @@ d3.json("/dataGroup.json", function (error, arrData) {
             Data.forEach(function (d) {
                   d.LineCategory.forEach(function (b) {
                         b.Date = d.Date;
+                        b.Item = d.Item;
+                        b.Manufacturer = d.Manufacturer;
                   })
             });
             var Categories = new Array();
@@ -167,6 +169,8 @@ d3.json("/dataGroup.json", function (error, arrData) {
             Data.forEach(function (d) {
                   d.Categories.forEach(function (b) {
                         b.Date = d.Date;
+                        b.Item = d.Item;
+                        b.Manufacturer = d.Manufacturer;
                         var flag = false;
                         for (var i = 0; i < Categories.length; i++){
                               if (Categories[i].Name === b.Name)
@@ -194,13 +198,6 @@ d3.json("/dataGroup.json", function (error, arrData) {
                               b.Type = "line";
                               Categories.push(b) 
                         }
-                        /*if (Categories.findIndex(function (c) {
-                                    return c.Name === b.Name
-                              }) == -1) {
-                              b.Type = "line";
-                              //console.log(JSON.stringify(b))
-                              Categories.push(b)
-                        }*/
                   })
             });
 
@@ -362,15 +359,19 @@ d3.json("/dataGroup.json", function (error, arrData) {
                                     "<div class='arrow'></div>" +
                                     "<div class='wrap'>" + 
                                     "<div class='row'>\
-                                          <div class='col-left'>Date:</div>\
+                                          <div class='col-left'>Item Description:</div>\
+                                          <div class='col-right'>" + d.Item + "</div>\
+                                    </div>" +
+                                    "<div class='row'>\
+                                          <div class='col-left'>Manufacturer:</div>\
+                                          <div class='col-right'>" + d.Manufacturer + "</div>\
+                                    </div>" +
+                                    "<div class='row'>\
+                                          <div class='col-left'>Manufacturer Item ID:</div>\
                                           <div class='col-right'>" + d.Date + "</div>\
                                     </div>" +
                                     "<div class='row'>\
-                                          <div class='col-left'>Name:</div>\
-                                          <div class='col-right'>" + d.Name + "</div>\
-                                    </div>" +
-                                    "<div class='row'>\
-                                          <div class='col-left'>Value:</div>\
+                                          <div class='col-left'>" + d.Name + " ($):</div>\
                                           <div class='col-right'>" + d.Value + "</div>\
                                     </div>" +
                                     "</div>"
@@ -395,13 +396,14 @@ d3.json("/dataGroup.json", function (error, arrData) {
                   })
                   .transition()
                   .delay(500)
-                  .attrTween("height", function (d) {
-                        var i = d3
-                              .interpolate(0, height - y(d.Value));
-                        return function (t) {
-                              return i(t);
-                        }
-                  });
+                  .attr("height", function(d) { return height - y(d.Value); });
+                  // .attrTween("height", function (d) {
+                  //       var i = d3
+                  //             .interpolate(0, height - y(d.Value));
+                  //       return function (t) {
+                  //             return i(t);
+                  //       }
+                  // });
 
             // End Draw Categories
 
@@ -446,15 +448,19 @@ d3.json("/dataGroup.json", function (error, arrData) {
                               "<div class='arrow'></div>" +
                               "<div class='wrap'>" + 
                               "<div class='row'>\
-                                    <div class='col-left'>Date:</div>\
+                                    <div class='col-left'>Item Description:</div>\
+                                    <div class='col-right'>" + d[pos].Item + "</div>\
+                              </div>" +
+                              "<div class='row'>\
+                                    <div class='col-left'>Manufacturer:</div>\
+                                    <div class='col-right'>" + d[pos].Manufacturer + "</div>\
+                              </div>" +
+                              "<div class='row'>\
+                                    <div class='col-left'>Manufacturer Item ID:</div>\
                                     <div class='col-right'>" + d[pos].Date + "</div>\
                               </div>" +
                               "<div class='row'>\
-                                    <div class='col-left'>Name:</div>\
-                                    <div class='col-right'>" + d[pos].Name + "</div>\
-                              </div>" +
-                              "<div class='row'>\
-                                    <div class='col-left'>Value:</div>\
+                                    <div class='col-left'>Benchmark Price ($):</div>\
                                     <div class='col-right'>" + d[pos].Value + "</div>\
                               </div>" +
                               "</div>"
