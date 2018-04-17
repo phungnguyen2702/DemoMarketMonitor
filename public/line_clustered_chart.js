@@ -4,7 +4,12 @@ function getTextWidth(text, fontSize, fontName) {
 	ctx.font = fontSize + ' ' + fontName;
 	return ctx.measureText(text).width;
 }
-
+function scrollNext(_t) {
+    $(_t).prev().scrollLeft(100);
+}
+function scrollPrev(_t) {
+    $(_t).next().scrollLeft(-100);
+}
 function DataSegregator(array, on) {
 	var SegData;
 	OrdinalPositionHolder = {
@@ -93,6 +98,7 @@ $(window).ready(function () {
 d3.json("/dataGroup.json", function (error, arrData) {
 	if (error) throw error;
 	var view_width = $(".container").find('.nameChart').width();
+	var view_height = $(".container").find('.item').height() - 65;
 	// Config View SVG
 	var margin = {
 		top: 20,
@@ -101,7 +107,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 		left: 50
 	},
 		width = view_width - margin.left - margin.right,
-		height = 400 - margin.top - margin.bottom;
+		height = view_height - margin.top - margin.bottom;
 
 	// Extension method declaration
 	var x0 = d3.scale.ordinal()
@@ -246,7 +252,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 
 		d3.selectAll("div .nameBarChart." + arrData[_i].ID)
 			.append("text")
-			.text("Max, Min and Benchmark Prices across " + arrData[_i].ID.capitalizeFirstLetter())
+			.text(arrData[_i].ID.capitalizeFirstLetter() == "Market" ? "Max, Min and Benchmark Prices across Market" : "Max, Min and Benchmark Prices Your Organization")
 			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
@@ -291,7 +297,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			.attr("x", -5)
 			.attr("class", "axisLabel")
 			.attr("dy", ".71em")
-			.attr("dx", "-7em")
+			.attr("dx", "-" + (height / 2 - 80) + "px")
 			.text("Min Price and Max Price")
 			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
@@ -568,7 +574,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 				return y(d.Value) - 5;
 			})
 			.text(function (d) {
-				return d.Value;
+				return d.Value.toFixed(2);
 			});
 
 		var textlineDraw = svg.selectAll(".textline")
@@ -603,7 +609,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 					.attr("text-anchor", "middle")
 					.attr("x", d[i].posX)
 					.attr("y", d[i].lb_pos_y + 12)
-					.text(d[i].Value);
+					.text(d[i].Value.toFixed(2));
 
 			}
 

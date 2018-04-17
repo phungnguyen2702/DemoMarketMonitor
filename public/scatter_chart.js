@@ -3,6 +3,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 	if (error) throw error;
 
 	var view_width = $(".container").find('.nameScatterChart').width();
+	var view_height = $(".container").find('.item').height() - 65;
 
 	var margin = {
 		top: 20,
@@ -11,7 +12,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 		left: 50
 	},
 		width = view_width - margin.left - margin.right,
-		height = 400 - margin.top - margin.bottom;
+		height = view_height - margin.top - margin.bottom;
 
 	var x = d3.scale.linear()
 		.range([0, width]);
@@ -84,7 +85,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 
 		d3.select(".nameScatterChart." + arrData[_i].ID)
 			.append("text")
-			.text("Purchase Price and Quantity in Your " + arrData[_i].ID.capitalizeFirstLetter())
+			.text(arrData[_i].ID.capitalizeFirstLetter() == "Market" ? "Purchase Price and Quantity in across Market" : "Purchase Price and Quantity in Your Organization")
 			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
@@ -101,7 +102,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 			.call(xAxis)
 			.append("text")
 			.attr("class", "axisLabel")
-			.attr("x", width / 2 + 30)
+			.attr("x",  width / 2 + 60)
 			.attr("y", 33)
 			.style("text-anchor", "end")
 			.text("Purchase Quantity")
@@ -121,7 +122,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 			.append("text")
 			.attr("class", "axisLabel")
 			.attr("transform", "rotate(-90)")
-			.attr("x", -height / 3)
+			.attr("x", -(height / 2 - 50))
 			.attr("y", -45)
 			.attr("dy", ".71em")
 			.style("text-anchor", "end")
