@@ -5,10 +5,14 @@ function getTextWidth(text, fontSize, fontName) {
 	return ctx.measureText(text).width;
 }
 function scrollNext(_t) {
-    $(_t).prev().scrollLeft(100);
+    $(_t).prev().animate({
+        scrollLeft: 300
+    }, 200);
 }
 function scrollPrev(_t) {
-    $(_t).next().scrollLeft(-100);
+    $(_t).next().animate({
+        scrollLeft: -300
+    }, 200);
 }
 function DataSegregator(array, on) {
 	var SegData;
@@ -93,6 +97,19 @@ $(window).ready(function () {
 		obj = $('body .toolTip');
 		$(obj[0]).remove();
 	}
+
+	var obj_legendHolder = $(".legendHolder");
+	obj_legendHolder.each(function () {
+		var item = $(this).find('.legend');
+		var _w = 0;
+		item.each(function () {
+			_w += $(this).width() + 5;
+		})
+		$(this).css("width", _w +"px")
+		if (_w <= $(this).parent().width()){
+			$(this).parent().parent().find(".next, .prev").css("opacity","0");
+		}
+	})
 })
 
 d3.json("/dataGroup.json", function (error, arrData) {
