@@ -385,7 +385,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 				divTooltip.style("top", d3.event.pageY - 20 + "px");
 				var posTooltip = d3.event.pageX + 10;
 				divTooltip.attr("class", "toolTip");
-				if ($('.barchart#' + $(this).parents(".barchart")[0].id).width() / 2 < d3.event.layerX) {
+				if ($('.barchart#' + $(this).parents(".barchart")[0].id).width() / 2 < d3.event.x) {
 					posTooltip = d3.event.pageX - $('.toolTip').width() - 20;
 					divTooltip.attr("class", "toolTip left");
 				}
@@ -395,19 +395,19 @@ d3.json("/dataGroup.json", function (error, arrData) {
 					"<div class='arrow'></div>" +
 					"<div class='wrap'>" +
 					"<div class='row'>\
-						<div class='col-left'>Item Description:</div>\
+						<div class='col-left'>Item Description</div>\
 						<div class='col-right'>" + d.Item + "</div>\
 					</div>" +
 					"<div class='row'>\
-						<div class='col-left'>Manufacturer:</div>\
+						<div class='col-left'>Manufacturer</div>\
 						<div class='col-right'>" + d.Manufacturer + "</div>\
 					</div>" +
 					"<div class='row'>\
-						<div class='col-left'>Manufacturer Item ID:</div>\
+						<div class='col-left'>Manufacturer Item ID</div>\
 						<div class='col-right'>" + d.Date + "</div>\
 					</div>" +
 					"<div class='row'>\
-						<div class='col-left'>" + d.Name + " ($):</div>\
+						<div class='col-left'>" + d.Name + " ($)</div>\
 						<div class='col-right'>" + d.Value.toFixed(2) + "</div>\
 					</div>" +
 					"</div>"
@@ -486,19 +486,19 @@ d3.json("/dataGroup.json", function (error, arrData) {
 							"<div class='arrow'></div>" +
 							"<div class='wrap'>" +
 							"<div class='row'>\
-                                    <div class='col-left'>Item Description:</div>\
+                                    <div class='col-left'>Item Description</div>\
                                     <div class='col-right'>" + d[pos].Item + "</div>\
                               </div>" +
 							"<div class='row'>\
-                                    <div class='col-left'>Manufacturer:</div>\
+                                    <div class='col-left'>Manufacturer</div>\
                                     <div class='col-right'>" + d[pos].Manufacturer + "</div>\
                               </div>" +
 							"<div class='row'>\
-                                    <div class='col-left'>Manufacturer Item ID:</div>\
+                                    <div class='col-left'>Manufacturer Item ID</div>\
                                     <div class='col-right'>" + d[pos].Date + "</div>\
                               </div>" +
 							"<div class='row'>\
-                                    <div class='col-left'>Benchmark Price ($):</div>\
+                                    <div class='col-left'>Benchmark Price ($)</div>\
                                     <div class='col-right'>" + d[pos].Value.toFixed(2) + "</div>\
                               </div>" +
 							"</div>"
