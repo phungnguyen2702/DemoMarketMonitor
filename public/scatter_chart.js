@@ -14,40 +14,32 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 		width = view_width - margin.left - margin.right,
 		height = view_height - margin.top - margin.bottom;
 
-	var x = d3.scale.linear()
+	var x = d3.scaleLinear()
 		.range([0, width]);
 
-	var y = d3.scale.linear()
+	var y = d3.scaleLinear()
 		.range([height, 0]);
 
-	var r = d3.scale.linear()
+	var r = d3.scaleLinear()
 		.range([7, 18]);
-	var xAxis = d3.svg.axis()
-		.scale(x)
-		.orient("bottom")
+	var xAxis = d3.axisBottom(x)
 		.ticks(width / 225);
 
-	var yAxis = d3.svg.axis()
-		.scale(y)
-		.orient("left")
+	var yAxis = d3.axisLeft(y)
 		.ticks(height / 75);
 
 	function make_y_axis() {
-		return d3.svg.axis()
-			.scale(y)
-			.orient("left")
+		return d3.axisLeft(y)
 			.ticks(height / 75)
 	}
 
 	function make_x_axis() {
-		return d3.svg.axis()
-			.scale(x)
-			.orient("bottom")
+		return d3.axisBottom(x)
 			.ticks(width / 225)
 	}
 
 	for (var _i = 0; _i < arrData.length; _i++) {
-		var color = d3.scale.ordinal()
+		var color = d3.scaleOrdinal()
 		.range(["#35978f", "#374649", "#fd625e","#f2c80f","#5f6b6d","#8ad4eb","#fe9666","#a66999","#3599b8","#dfbfbf","#4ac5bb","#5f6b6d","#fb8281"]);
 
 		var data = arrData[_i].Data;

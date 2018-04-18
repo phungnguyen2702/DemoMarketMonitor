@@ -6,15 +6,35 @@ function getTextWidth(text, fontSize, fontName) {
 }
 
 function scrollNext(_t) {
-	$(_t).prev().animate({
-		scrollLeft: 300
-	}, 200);
+	var $_this = $(_t).prev();
+	$_this.animate({
+		scrollLeft: $_this.offset().left - $_this.find('.legendHolder').offset().left + 50
+	}, 200, function(){
+		if ($_this.find('.legendHolder').offset().left == -1)
+			$(_t).parent().find('.next').css("opacity", "0");
+		else
+			$(_t).parent().find('.next').css("opacity", "1");
+		if ($_this.offset().left - $_this.find('.legendHolder').offset().left == 0)
+			$(_t).parent().find('.prev').css("opacity", "0");
+		else
+			$(_t).parent().find('.prev').css("opacity", "1");
+	});
 }
 
 function scrollPrev(_t) {
-	$(_t).next().animate({
-		scrollLeft: -300
-	}, 200);
+	var $_this = $(_t).next();
+	$_this.animate({
+		scrollLeft: $_this.offset().left - $_this.find('.legendHolder').offset().left - 50
+	}, 200, function(){
+		if ($_this.find('.legendHolder').offset().left == -1)
+			$(_t).parent().find('.next').css("opacity", "0");
+		else
+			$(_t).parent().find('.next').css("opacity", "1");
+		if ($_this.offset().left - $_this.find('.legendHolder').offset().left == 0)
+			$(_t).parent().find('.prev').css("opacity", "0");
+		else
+			$(_t).parent().find('.prev').css("opacity", "1");
+	});
 }
 
 function DataSegregator(array, on) {
@@ -133,19 +153,20 @@ d3.json("/dataGroup.json", function (error, arrData) {
 		height = view_height - margin.top - margin.bottom;
 
 	// Extension method declaration
-	var x0 = d3.scale.ordinal()
-		.rangeRoundBands([0, width], .1);
-	var x1 = d3.scale.ordinal();
+	var x0 = d3.scaleBand()
+		.rangeRound([0, width])
+		.padding(0.1);
+	var x1 = d3.scaleOrdinal();
 
-	var y = d3.scale.linear()
+	var y = d3.scaleLinear()
 		.range([height, 0]);
-	var color = d3.scale.ordinal()
+	var color = d3.scaleOrdinal()
 		.range(["#01b8aa", "#374649", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
-	var line = d3.svg.line()
+	var line = d3.line()
 		.x(function (d) {
-			d.posX = x0(d.Date) + x0.rangeBand() / 2;
-			return x0(d.Date) + x0.rangeBand() / 2;
+			d.posX = x0(d.Date) + x0.bandwidth() / 2;
+			return x0(d.Date) + x0.bandwidth() / 2;
 		})
 		.y(function (d) {
 			d.posY = y(d.Value);
@@ -154,16 +175,12 @@ d3.json("/dataGroup.json", function (error, arrData) {
 
 
 	function make_y_axis() {
-		return d3.svg.axis()
-			.scale(y)
-			.orient("left")
+		return d3.axisLeft(y)
 			.ticks(height / 75);
 	}
 
 	function make_x_axis() {
-		return d3.svg.axis()
-			.scale(x)
-			.orient("left")
+		return d3.axisLeft(x)
 			.ticks(10);
 	}
 
@@ -176,13 +193,9 @@ d3.json("/dataGroup.json", function (error, arrData) {
 		});
 		return index;
 	}
-	var xAxis = d3.svg.axis()
-		.scale(x0)
-		.orient("bottom");
+	var xAxis = d3.axisBottom(x0)
 
-	var yAxis = d3.svg.axis()
-		.scale(y)
-		.orient("left")
+	var yAxis = d3.axisLeft(y)
 		.ticks(height / 75);
 	for (var _i = 0; _i < arrData.length; _i++) {
 
@@ -238,7 +251,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 		}), "Name");
 
 		// Line Coloring
-		LineColor = d3.scale.ordinal();
+		LineColor = d3.scaleOrdinal();
 
 		LineColor.domain(Categories.filter(function (d) {
 			return d.Type == "line"
@@ -254,11 +267,14 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			return d.Date;
 		}));
 
+		x1 = d3.scaleBand()
+		.range([0, x0.bandwidth()]);
 		x1.domain(Categories.filter(function (d) {
 			return d.Type == "bar"
 		}).map(function (d) {
 			return d.Name
-		})).rangeRoundBands([0, x0.rangeBand()]);
+		}))
+		//x1.rangeRoundBands([0, x0.bandwidth()]);
 
 		y.domain([0, make_rounding(d3.max(Data, function (d) {
 			return d3.max(d.Categories, function (d) {
@@ -371,15 +387,21 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			.enter()
 			.append("rect")
 			.attr("class", "opacity bar")
+			.style("fill", function (d) {
+				return color(d.Name);
+			})
 			.attr("data-ctype", function (d) {
 				return d.Name;
 			})
-			.attr("width", x1.rangeBand())
 			.attr("x", function (d) {
 				return x1(d.Name);
 			})
+			.attr("width", x1.bandwidth())
 			.attr("y", function (d) {
 				return y(d.Value);
+			})
+			.attr("height", function (d) {
+				return height - y(d.Value);
 			})
 			.on("mousemove", function (d) {
 				divTooltip.style("top", d3.event.pageY - 20 + "px");
@@ -427,14 +449,6 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			//       }
 			//       $('.legendHolder .legend').removeClass('show').css('opacity',1);
 			// })
-			.style("fill", function (d) {
-				return color(d.Name);
-			})
-			.transition()
-			.delay(500)
-			.attr("height", function (d) {
-				return height - y(d.Value);
-			});
 		// .attrTween("height", function (d) {
 		//       var i = d3
 		//             .interpolate(0, height - y(d.Value));
@@ -461,11 +475,12 @@ d3.json("/dataGroup.json", function (error, arrData) {
 					.attr("d", function (b) {
 						return line(b)
 					})
-					.style({
-						"stroke-width": "2px",
-						"fill": "none"
-					})
-					.style("stroke", LineColor(Name))
+					.attr("style","stroke-width: 2px; fill: none; stroke: " + LineColor(Name) + "")
+					// .style({
+					// 	"stroke-width": "2px",
+					// 	'fill': 'none',
+					// 	'stroke': LineColor(Name)
+					// })
 					.on("mouseover", function (d) {
 
 						var mouseX = d3.mouse(this);
@@ -524,10 +539,10 @@ d3.json("/dataGroup.json", function (error, arrData) {
 					//             $('.legendHolder [data-ctype="' + $(this).parent().data('ctype') + '"]').addClass('show').css('opacity',1);
 					//       }
 					// })
-					.text(function (d) {
-						return 1000;
-					})
-					.transition().duration(1500);
+					// .text(function (d) {
+					// 	return 1000;
+					// })
+					// .transition().duration(1500);
 
 			})
 			.style("shape-rendering", "geometricPrecision");
@@ -578,7 +593,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			.attr("rx", 4)
 			.attr("ry", 4)
 			.attr("x", function (d) {
-				d.lb_pos_x = x1(d.Name) + x1.rangeBand() / 2 - 20;
+				d.lb_pos_x = x1(d.Name) + x1.bandwidth() / 2 - 20;
 				return d.lb_pos_x;
 			})
 			.attr("y", function (d) {
@@ -597,7 +612,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			.attr("class", "textbar")
 			.attr("text-anchor", "middle")
 			.attr("x", function (d) {
-				return x1(d.Name) + x1.rangeBand() / 2;
+				return x1(d.Name) + x1.bandwidth() / 2;
 			})
 			.attr("y", function (d) {
 				return y(d.Value) - 5;
