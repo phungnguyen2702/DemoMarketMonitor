@@ -202,12 +202,12 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 				/*divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
 				divTooltip.style("display", "inline-block");*/
-
+				
 				divTooltip.style("top", d3.event.pageY - 20 + "px");
 				var posTooltip = d3.event.pageX + 10;
 				divTooltip.attr("class", "toolTip");
 
-				if ($('.scatterChart#' + $(this).parents(".scatterChart")[0].id).width() - 250 < d3.event.offsetX) {
+				if ($('.scatterChart#' + $(this).parents(".scatterChart")[0].id).width() / 2 < d3.event.layerX) {
 					posTooltip = d3.event.pageX - $('.toolTip').width() - 20;
 					divTooltip.attr("class", "toolTip left");
 				}
