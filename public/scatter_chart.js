@@ -25,7 +25,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 	var xAxis = d3.svg.axis()
 		.scale(x)
 		.orient("bottom")
-		.ticks(height / 75);
+		.ticks(width / 225);
 
 	var yAxis = d3.svg.axis()
 		.scale(y)
@@ -36,14 +36,14 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 		return d3.svg.axis()
 			.scale(y)
 			.orient("left")
-			.ticks(5)
+			.ticks(height / 75)
 	}
 
 	function make_x_axis() {
 		return d3.svg.axis()
 			.scale(x)
 			.orient("bottom")
-			.ticks(5)
+			.ticks(width / 225)
 	}
 
 	for (var _i = 0; _i < arrData.length; _i++) {
@@ -306,7 +306,9 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 		var legend = LegendHolder.selectAll(".legend")
 			.data(dataLegend)
 			.enter().append("div")
-			.attr("class", "legend")
+			.attr("class", function (d, i) {
+				return "legend scatter_" + arrData[_i].ID + "_" + i;
+			})
 			.on("mousemove", function (d) {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
@@ -316,23 +318,62 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 			.on("mouseout", function (d) {
 				divTooltip.style("display", "none");
 			})
-			.each(function (d, i) {
-				//  Legend Symbols
-				var circle = d3.select(this).append("svg")
-					.style("width", "20")
-					.style("height", "20");
-				circle.append("circle")
-					.attr("cx", 7)
-					.attr("cy", 10)
-					.attr("r", 7)
-					.style("fill", function (b) {
-						return color(d)
-					});
-				//  Legend Text
-				d3.select(this).append("div")
-					.attr("class", "textLegend")
-					.text(d);
-			});
+			// .each(function (d, i) {
+			// 	//  Legend Symbols
+			// 	var circle = d3.select(this).append("svg")
+			// 		.style("width", "20")
+			// 		.style("height", "20");
+			// 	circle.append("circle")
+			// 		.attr("cx", 7)
+			// 		.attr("cy", 10)
+			// 		.attr("r", 7)
+			// 		.style("fill", function (b) {
+			// 			return color(d)
+			// 		});
+			// 	//  Legend Text
+			// 	d3.select(this).append("div")
+			// 		.attr("class", "textLegend")
+			// 		.text(d);
+			// });
+
+			for (var j=0;j<dataLegend.length;j++){
+				// var _data = Categories.map(function (d) {
+				// 	return {
+				// 		"Name": d.Name,
+				// 		"Type": d.Type,
+				// 	}
+				// });
+				$(".legend.scatter_" + arrData[_i].ID + "_" + j).append("<svg style=\"width: 20px; height: 20px;\"><circle cx=\"7\" cy=\"10\" r=\"7\" style=\"fill: " + color(dataLegend[j]) + ";\"></circle></svg><div class=\"textLegend\">" + dataLegend[j] + "</div>")
+					// .style("width", "20")
+					// .style("height", "20")
+					// .each(function(){
+
+					// })
+					// .append("circle")
+					// .attr("cx", 7)
+					// .attr("cy", 10)
+					// .attr("r", 7)
+					// .style("fill", function () {
+					// 	var _color = Categories[j].Type == 'bar' ? color(Categories[j].Name) : LineColor(Categories[j].Name);
+					// 	return _color;
+					// });
+
+			}
 
 	}
+});
+// Back delete duplicate
+$(window).ready(function () {
+	var obj_legendHolder = $(".legendHolder");
+	obj_legendHolder.each(function () {
+		var item = $(this).find('.legend');
+		var _w = 0;
+		item.each(function () {
+			_w += $(this).width() + 5;
+		})
+		$(this).css("width", _w + "px")
+		if (_w <= $(this).parent().width()) {
+			$(this).parent().parent().find(".next, .prev").css("opacity", "0");
+		}
+	});
 });

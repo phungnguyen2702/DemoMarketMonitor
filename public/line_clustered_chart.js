@@ -4,16 +4,19 @@ function getTextWidth(text, fontSize, fontName) {
 	ctx.font = fontSize + ' ' + fontName;
 	return ctx.measureText(text).width;
 }
+
 function scrollNext(_t) {
-    $(_t).prev().animate({
-        scrollLeft: 300
-    }, 200);
+	$(_t).prev().animate({
+		scrollLeft: 300
+	}, 200);
 }
+
 function scrollPrev(_t) {
-    $(_t).next().animate({
-        scrollLeft: -300
-    }, 200);
+	$(_t).next().animate({
+		scrollLeft: -300
+	}, 200);
 }
+
 function DataSegregator(array, on) {
 	var SegData;
 	OrdinalPositionHolder = {
@@ -65,7 +68,10 @@ function kFormatter(num) {
 
 
 function make_rounding(number) {
-	return (Math.floor(number/100) + 1) * 100;
+	if (Math.floor(number / 100) % 2 != 0) {
+		return (Math.floor(number / 100) + 1) * 100;
+	}
+	return (Math.floor(number / 100) + 2) * 100;
 }
 // Tooltip
 
@@ -82,7 +88,7 @@ $(window).ready(function () {
 		if ($(item_svg).length > 1) {
 			$(item_svg[0]).remove();
 		}
-	})
+	});
 
 	var obj_nameBar = $('body .nameChart')
 
@@ -91,26 +97,26 @@ $(window).ready(function () {
 		if ($(item).length > 1) {
 			$(item[0]).remove();
 		}
-	})
+	});
 
 	if ($('body .toolTip').length > 1) {
 		obj = $('body .toolTip');
 		$(obj[0]).remove();
 	}
 
-	var obj_legendHolder = $(".legendHolder");
-	obj_legendHolder.each(function () {
-		var item = $(this).find('.legend');
-		var _w = 0;
-		item.each(function () {
-			_w += $(this).width() + 5;
-		})
-		$(this).css("width", _w +"px")
-		if (_w <= $(this).parent().width()){
-			$(this).parent().parent().find(".next, .prev").css("opacity","0");
-		}
-	})
-})
+	// var obj_legendHolder = $(".legendHolder");
+	// obj_legendHolder.each(function () {
+	// 	var item = $(this).find('.legend');
+	// 	var _w = 0;
+	// 	item.each(function () {
+	// 		_w += $(this).width() + 5;
+	// 	})
+	// 	$(this).css("width", _w + "px")
+	// 	if (_w <= $(this).parent().width()) {
+	// 		$(this).parent().parent().find(".next, .prev").css("opacity", "0");
+	// 	}
+	// });
+});
 
 d3.json("/dataGroup.json", function (error, arrData) {
 	if (error) throw error;
@@ -118,11 +124,11 @@ d3.json("/dataGroup.json", function (error, arrData) {
 	var view_height = $(".container").find('.item').height() - 65;
 	// Config View SVG
 	var margin = {
-		top: 20,
-		right: 30,
-		bottom: 60,
-		left: 50
-	},
+			top: 20,
+			right: 30,
+			bottom: 60,
+			left: 50
+		},
 		width = view_width - margin.left - margin.right,
 		height = view_height - margin.top - margin.bottom;
 
@@ -143,7 +149,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 		})
 		.y(function (d) {
 			d.posY = y(d.Value);
-			return y(d.Value)
+			return y(d.Value);
 		})
 
 
@@ -158,7 +164,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 		return d3.svg.axis()
 			.scale(x)
 			.orient("left")
-			.ticks(10)
+			.ticks(10);
 	}
 
 	function getIndex(arr, currX) {
@@ -188,7 +194,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 				b.Date = d.Date;
 				b.Item = d.Item;
 				b.Manufacturer = d.Manufacturer;
-			})
+			});
 		});
 		var Categories = new Array();
 
@@ -205,7 +211,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 				}
 				if (!flag) {
 					b.Type = "bar";
-					Categories.push(b)
+					Categories.push(b);
 				}
 			})
 		});
@@ -269,7 +275,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 
 		d3.selectAll("div .nameBarChart." + arrData[_i].ID)
 			.append("text")
-			.text(arrData[_i].ID.capitalizeFirstLetter() == "Market" ? "Max, Min and Benchmark Prices across Market" : "Max, Min and Benchmark Prices Your Organization")
+			.text(arrData[_i].ID.capitalizeFirstLetter() == "Market" ? "Max, Min and Benchmark Prices in across Market" : "Max, Min and Benchmark Prices in Your Organization")
 			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
@@ -284,13 +290,18 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis)
-			
-			//Hover text x axis
-			.on("mousemove", function (d) {
+			.append("text")
+			.attr("class", "axisLabel")
+			.attr("x", width / 2 + 40)
+			.attr("y", 33)
+			.style("text-anchor", "end")
+			.text("Mfr. Item ID")
+			//Hover text
+			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
 				divTooltip.style("display", "inline-block");
-				divTooltip.html("<div>" + d.Date + "</div>");
+				divTooltip.html("<div>" + this.textContent + "</div>");
 			})
 			.on("mouseout", function () {
 				divTooltip.style("display", "none");
@@ -327,7 +338,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			});
 
 		// Hover Text y axis
-		svg.selectAll(".y.axis .tick text")
+		svg.selectAll(".axis .tick text")
 			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
@@ -385,21 +396,21 @@ d3.json("/dataGroup.json", function (error, arrData) {
 					"<div class='arrow'></div>" +
 					"<div class='wrap'>" +
 					"<div class='row'>\
-                                          <div class='col-left'>Item Description:</div>\
-                                          <div class='col-right'>" + d.Item + "</div>\
-                                    </div>" +
+						<div class='col-left'>Item Description:</div>\
+						<div class='col-right'>" + d.Item + "</div>\
+					</div>" +
 					"<div class='row'>\
-                                          <div class='col-left'>Manufacturer:</div>\
-                                          <div class='col-right'>" + d.Manufacturer + "</div>\
-                                    </div>" +
+						<div class='col-left'>Manufacturer:</div>\
+						<div class='col-right'>" + d.Manufacturer + "</div>\
+					</div>" +
 					"<div class='row'>\
-                                          <div class='col-left'>Manufacturer Item ID:</div>\
-                                          <div class='col-right'>" + d.Date + "</div>\
-                                    </div>" +
+						<div class='col-left'>Manufacturer Item ID:</div>\
+						<div class='col-right'>" + d.Date + "</div>\
+					</div>" +
 					"<div class='row'>\
-                                          <div class='col-left'>" + d.Name + " ($):</div>\
-                                          <div class='col-right'>" + d.Value + "</div>\
-                                    </div>" +
+						<div class='col-left'>" + d.Name + " ($):</div>\
+						<div class='col-right'>" + d.Value.toFixed(2) + "</div>\
+					</div>" +
 					"</div>"
 				);
 			})
@@ -422,7 +433,9 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			})
 			.transition()
 			.delay(500)
-			.attr("height", function (d) { return height - y(d.Value); });
+			.attr("height", function (d) {
+				return height - y(d.Value);
+			});
 		// .attrTween("height", function (d) {
 		//       var i = d3
 		//             .interpolate(0, height - y(d.Value));
@@ -444,80 +457,80 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			})
 
 		lineDraw.each(function (d, i) {
-			Name = d[i].Name
-			d3.select(this).append("path")
-				.attr("d", function (b) {
-					return line(b)
-				})
-				.style({
-					"stroke-width": "2px",
-					"fill": "none"
-				})
-				.style("stroke", LineColor(Name))
-				.on("mouseover", function (d) {
+				Name = d[i].Name
+				d3.select(this).append("path")
+					.attr("d", function (b) {
+						return line(b)
+					})
+					.style({
+						"stroke-width": "2px",
+						"fill": "none"
+					})
+					.style("stroke", LineColor(Name))
+					.on("mouseover", function (d) {
 
-					var mouseX = d3.mouse(this);
-					var index = getIndex(d, mouseX[0]);
-					var pos = index;
-					if ((d[index].posX + d[index + 1].posX) / 2 < mouseX[0]) {
-						pos += 1;
-					}
-					var posTooltip = d3.event.pageX + 10;
-					divTooltip.attr("class", "toolTip");
-					if ($('.barchart#' + $(this).parents(".barchart")[0].id).width() - 250 < d3.event.offsetX) {
-						posTooltip = d3.event.pageX - $('.toolTip').width() - 20;
-						divTooltip.attr("class", "toolTip left");
-					}
-					divTooltip.style("left", posTooltip + "px");
-					divTooltip.style("display", "inline-block");
-					divTooltip.html(
-						"<div class='arrow'></div>" +
-						"<div class='wrap'>" +
-						"<div class='row'>\
+						var mouseX = d3.mouse(this);
+						var index = getIndex(d, mouseX[0]);
+						var pos = index;
+						if ((d[index].posX + d[index + 1].posX) / 2 < mouseX[0]) {
+							pos += 1;
+						}
+						var posTooltip = d3.event.pageX + 10;
+						divTooltip.attr("class", "toolTip");
+						if ($('.barchart#' + $(this).parents(".barchart")[0].id).width() - 250 < d3.event.offsetX) {
+							posTooltip = d3.event.pageX - $('.toolTip').width() - 20;
+							divTooltip.attr("class", "toolTip left");
+						}
+						divTooltip.style("left", posTooltip + "px");
+						divTooltip.style("display", "inline-block");
+						divTooltip.html(
+							"<div class='arrow'></div>" +
+							"<div class='wrap'>" +
+							"<div class='row'>\
                                     <div class='col-left'>Item Description:</div>\
                                     <div class='col-right'>" + d[pos].Item + "</div>\
                               </div>" +
-						"<div class='row'>\
+							"<div class='row'>\
                                     <div class='col-left'>Manufacturer:</div>\
                                     <div class='col-right'>" + d[pos].Manufacturer + "</div>\
                               </div>" +
-						"<div class='row'>\
+							"<div class='row'>\
                                     <div class='col-left'>Manufacturer Item ID:</div>\
                                     <div class='col-right'>" + d[pos].Date + "</div>\
                               </div>" +
-						"<div class='row'>\
+							"<div class='row'>\
                                     <div class='col-left'>Benchmark Price ($):</div>\
-                                    <div class='col-right'>" + d[pos].Value + "</div>\
+                                    <div class='col-right'>" + d[pos].Value.toFixed(2) + "</div>\
                               </div>" +
-						"</div>"
-					);
+							"</div>"
+						);
 
-					divTooltip.style("top", d3.event.pageY - 15 + "px");
-					divTooltip.style("display", "inline-block");
-				})
-				.on("mouseout", function (d) {
-					divTooltip.style("display", "none");
-				})
-				// .on('click', function(){
-				//       if ($(this).parent().hasClass('show')){
-				//             $('.barchart#' + $(this).parents(".barchart")[0].id).find('.opacity').css('opacity',1);
-				//             $(this).parent().removeClass('show');
-				//             $('.legendHolder [data-ctype="' + $(this).parent().data('ctype') + '"]').removeClass('show');
+						divTooltip.style("top", d3.event.pageY - 15 + "px");
+						divTooltip.style("display", "inline-block");
+					})
+					.on("mouseout", function (d) {
+						divTooltip.style("display", "none");
+					})
+					// .on('click', function(){
+					//       if ($(this).parent().hasClass('show')){
+					//             $('.barchart#' + $(this).parents(".barchart")[0].id).find('.opacity').css('opacity',1);
+					//             $(this).parent().removeClass('show');
+					//             $('.legendHolder [data-ctype="' + $(this).parent().data('ctype') + '"]').removeClass('show');
 
-				//       }
-				//       else{
-				//             $('.barchart#' + $(this).parents(".barchart")[0].id).find('.opacity').removeClass('show').css('opacity',0.4);
-				//             $(this).parent().addClass('show').css('opacity',1);
-				//             $('.legendHolder .legend').removeClass('show').css('opacity',0.4);
-				//             $('.legendHolder [data-ctype="' + $(this).parent().data('ctype') + '"]').addClass('show').css('opacity',1);
-				//       }
-				// })
-				.text(function (d) {
-					return 1000;
-				})
-				.transition().duration(1500);
+					//       }
+					//       else{
+					//             $('.barchart#' + $(this).parents(".barchart")[0].id).find('.opacity').removeClass('show').css('opacity',0.4);
+					//             $(this).parent().addClass('show').css('opacity',1);
+					//             $('.legendHolder .legend').removeClass('show').css('opacity',0.4);
+					//             $('.legendHolder [data-ctype="' + $(this).parent().data('ctype') + '"]').addClass('show').css('opacity',1);
+					//       }
+					// })
+					.text(function (d) {
+						return 1000;
+					})
+					.transition().duration(1500);
 
-		})
+			})
 			.style("shape-rendering", "geometricPrecision");
 
 		// End Draw lineCategories
@@ -544,7 +557,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 				pos_min = t;
 			}
 			while (!((pos + 20 < pos_max && pos > pos_min + 20) ||
-				(pos > pos_max + 20) || (pos < pos_min))) {
+					(pos > pos_max + 20) || (pos < pos_min))) {
 				if (pos_max - pos_min - 20 > 30)
 					pos--;
 				else
@@ -644,7 +657,9 @@ d3.json("/dataGroup.json", function (error, arrData) {
 				}
 			}))
 			.enter().append("div")
-			.attr("class", "legend")
+			.attr("class", function (d, i) {
+				return "legend " + arrData[_i].ID + "_" + i;
+			})
 			.on("mousemove", function (d) {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
@@ -653,7 +668,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			})
 			.on("mouseout", function (d) {
 				divTooltip.style("display", "none");
-			})
+			});
 
 			/*.on('click', function(){
 			      var current = $(this).data('ctype');
@@ -668,23 +683,53 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			      $('[data-ctype="' + current + '"]').addClass('show').css('opacity',1);
 			      }
 			})*/
-			.each(function (d, i) {
-				//  Legend Symbols
-				var circle = d3.select(this).append("svg")
-					.style("width", "20")
-					.style("height", "20");
-				circle.append("circle")
-					.attr("cx", 7)
-					.attr("cy", 10)
-					.attr("r", 7)
-					.style("fill", function (b) {
-						return b.Type == 'bar' ? color(d.Name) : LineColor(d.Name)
-					});
-				//  Legend Text
-				d3.select(this).append("div")
-					.attr("class", "textLegend")
-					.text(d.Name);
-			});
+			for (var j=0;j<Categories.length;j++){
+				// var _data = Categories.map(function (d) {
+				// 	return {
+				// 		"Name": d.Name,
+				// 		"Type": d.Type,
+				// 	}
+				// });
+				var _color = Categories[j].Type == 'bar' ? color(Categories[j].Name) : LineColor(Categories[j].Name);
+				$(".legend." + arrData[_i].ID + "_" + j).append("<svg style=\"width: 20px; height: 20px;\"><circle cx=\"7\" cy=\"10\" r=\"7\" style=\"fill: " + _color + ";\"></circle></svg><div class=\"textLegend\">" + Categories[j].Name + "</div>")
+					// .style("width", "20")
+					// .style("height", "20")
+					// .each(function(){
+
+					// })
+					// .append("circle")
+					// .attr("cx", 7)
+					// .attr("cy", 10)
+					// .attr("r", 7)
+					// .style("fill", function () {
+					// 	var _color = Categories[j].Type == 'bar' ? color(Categories[j].Name) : LineColor(Categories[j].Name);
+					// 	return _color;
+					// });
+
+			}
+			// d3.data(Categories.map(function (d) {
+			// 	return {
+			// 		"Name": d.Name,
+			// 		"Type": d.Type
+			// 	}
+			// }))
+			// .each(function (d, i) {
+			// 	//  Legend Symbols
+			// 	var circle = d3.selectAll(".legend." + arrData[_i].ID + "_" + i).append("svg")
+			// 		.style("width", "20")
+			// 		.style("height", "20");
+			// 	circle.append("circle")
+			// 		.attr("cx", 7)
+			// 		.attr("cy", 10)
+			// 		.attr("r", 7)
+			// 		.style("fill", function (b) {
+			// 			return b.Type == 'bar' ? color(d.Name) : LineColor(d.Name)
+			// 		});
+			// 	//  Legend Text
+			// 	d3.selectAll(".legend." + arrData[_i].ID + "_" + i).append("div")
+			// 		.attr("class", "textLegend")
+			// 		.text(d.Name);
+			// });
 
 	}
 });
