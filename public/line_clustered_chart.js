@@ -275,7 +275,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 
 		d3.selectAll("div .nameBarChart." + arrData[_i].ID)
 			.append("text")
-			.text(arrData[_i].ID.capitalizeFirstLetter() == "Market" ? "Max, Min and Benchmark Prices in across Market" : "Max, Min and Benchmark Prices in Your Organization")
+			.text(arrData[_i].ID.capitalizeFirstLetter() == "Market" ? "Max, Min and Benchmark Prices across Market" : "Max, Min and Benchmark Prices in Your Organization")
 			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");

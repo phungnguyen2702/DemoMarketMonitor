@@ -85,7 +85,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 
 		d3.select(".nameScatterChart." + arrData[_i].ID)
 			.append("text")
-			.text(arrData[_i].ID.capitalizeFirstLetter() == "Market" ? "Purchase Price and Quantity in across Market" : "Purchase Price and Quantity in Your Organization")
+			.text(arrData[_i].ID.capitalizeFirstLetter() == "Market" ? "Purchase Price and Quantity across Market" : "Purchase Price and Quantity in Your Organization")
 			.on("mousemove", function () {
 				divTooltip.style("left", d3.event.pageX + 10 + "px");
 				divTooltip.style("top", d3.event.pageY - 25 + "px");
