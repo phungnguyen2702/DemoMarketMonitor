@@ -588,8 +588,7 @@ d3.json("/dataGroup.json", function (error, arrData) {
 			.enter()
 			.append("rect")
 			.attr("class", "labelTextBar")
-			.style("fill", "white")
-			.style("fill-opacity", 0.7)
+			.attr("style","fill: white; fill-opacity: 0.7")
 			.attr("rx", 4)
 			.attr("ry", 4)
 			.attr("x", function (d) {
