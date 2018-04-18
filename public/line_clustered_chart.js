@@ -10,7 +10,7 @@ function scrollNext(_t) {
 	$_this.animate({
 		scrollLeft: $_this.offset().left - $_this.find('.legendHolder').offset().left + 50
 	}, 200, function(){
-		if ($_this.find('.legendHolder').offset().left == -1)
+		if ($_this.find('.legendHolder').offset().left + $_this.find('.legendHolder').width() <= $_this.offset().left + $_this.width() - 15)
 			$(_t).parent().find('.next').css("opacity", "0");
 		else
 			$(_t).parent().find('.next').css("opacity", "1");
@@ -26,7 +26,7 @@ function scrollPrev(_t) {
 	$_this.animate({
 		scrollLeft: $_this.offset().left - $_this.find('.legendHolder').offset().left - 50
 	}, 200, function(){
-		if ($_this.find('.legendHolder').offset().left == -1)
+		if ($_this.find('.legendHolder').offset().left + $_this.find('.legendHolder').width() <= $_this.offset().left + $_this.width() - 15)
 			$(_t).parent().find('.next').css("opacity", "0");
 		else
 			$(_t).parent().find('.next').css("opacity", "1");

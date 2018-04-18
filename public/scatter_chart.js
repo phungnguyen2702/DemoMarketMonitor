@@ -355,7 +355,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 	}
 });
 // Back delete duplicate
-$(window).ready(function () {
+$(window).on('load',function () {
 	var obj_legendHolder = $(".legendHolder");
 	obj_legendHolder.each(function () {
 		var item = $(this).find('.legend');
