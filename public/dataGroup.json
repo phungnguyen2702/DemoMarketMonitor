@@ -1,20 +1,288 @@
 [
 	{
 		"ID": "market",
-		"Data": [{"Item": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "90QWJK123", "Date": "90QWJK123", "Categories": [{ "Name": "Min Price", "Value": 321 },{ "Name": "Max Price", "Value": 368 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 330}]},
-		{"Item": "GLOVE  7.5 PROTEXIS", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "798234KSD", "Date": "798234KSD", "Categories": [{ "Name": "Min Price", "Value": 123 },{ "Name": "Max Price", "Value": 521 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 318}]},
-		{"Item": "GLV PROTEXIS PI NO LTX PF SURG 7.0", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "8S90F0SDF", "Date": "8S90F0SDF", "Categories": [{ "Name": "Min Price", "Value": 236 },{ "Name": "Max Price", "Value": 368 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 281}]},
-		{"Item": "GLOVE SURG ESTEEM PF 8.0", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "KJSDF9JSD", "Date": "KJSDF9JSD", "Categories": [{ "Name": "Min Price", "Value": 330 },{ "Name": "Max Price", "Value": 423 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 360}]},
-		{"Item": "GLOVE, SURGN SYNTH PWDR FREE SZ 8-1/2", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "23JK4HDJK", "Date": "23JK4HDJK", "Categories": [{ "Name": "Min Price", "Value": 500 },{ "Name": "Max Price", "Value": 601 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 550}]},
-		{"Item": "GLOVE, SURGN SYNTH PWDR FREE SZ 6", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "78246JSJA", "Date": "78246JSJA", "Categories": [{ "Name": "Min Price", "Value": 400 },{ "Name": "Max Price", "Value": 461 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 422}]}]
+		"Data": [
+			{
+				"Item": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "90QWJK123",
+				"Date": "90QWJK123",
+				"Min_price": 321,
+				"Max_price": 368,
+				"Benchmark_price": 330,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 321,
+					  "Purchase_quantity": 120
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 368,
+					  "Purchase_quantity": 12
+					}
+				]
+			},
+			{
+				"Item": "GLOVE  7.5 PROTEXIS",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "798234KSD",
+				"Date": "798234KSD",
+				"Min_price": 123,
+				"Max_price": 512,
+				"Benchmark_price": 318,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 123,
+					  "Purchase_quantity": 150
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 512,
+					  "Purchase_quantity": 160
+					}
+				]
+			},
+			{
+				"Item": "GLV PROTEXIS PI NO LTX PF SURG 7.0",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "8S90F0SDF",
+				"Date": "8S90F0SDF",
+				"Min_price": 236,
+				"Max_price": 368,
+				"Benchmark_price": 281,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 236,
+					  "Purchase_quantity": 98
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 368,
+					  "Purchase_quantity": 50
+					}
+				]
+			},
+			{
+				"Item": "GLOVE SURG ESTEEM PF 8.0",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "KJSDF9JSD",
+				"Date": "KJSDF9JSD",
+				"Min_price": 330,
+				"Max_price": 423,
+				"Benchmark_price": 360,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 330,
+					  "Purchase_quantity": 68
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 423,
+					  "Purchase_quantity": 250
+					}
+				]
+			},
+			{
+				"Item": "GLOVE, SURGN SYNTH PWDR FREE SZ 8-1/2",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "23JK4HDJK",
+				"Date": "23JK4HDJK",
+				"Min_price": 500,
+				"Max_price": 601,
+				"Benchmark_price": 550,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 500,
+					  "Purchase_quantity": 320
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 601,
+					  "Purchase_quantity": 125
+					}
+				]
+			},
+			{
+				"Item": "GLOVE, SURGN SYNTH PWDR FREE SZ 6",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "78246JSJA",
+				"Date": "78246JSJA",
+				"Min_price": 400,
+				"Max_price": 461,
+				"Benchmark_price": 422,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 400,
+					  "Purchase_quantity": 220
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 0,
+					  "Purchase_price": 422,
+					  "Purchase_quantity": 310
+					}
+				]
+			}
+		]
 	},
 	{
 		"ID": "organization",
-		"Data": [{"Item": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "78236JHG2", "Date": "78236JHG2", "Categories": [{ "Name": "Min Price", "Value": 500 },{ "Name": "Max Price", "Value": 550 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 500}]},
-		{"Item": "GLOVE  7.5 PROTEXIS", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "SDS7DSF67", "Date": "SDS7DSF67", "Categories": [{ "Name": "Min Price", "Value": 300 },{ "Name": "Max Price", "Value": 350 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 321}]},
-		{"Item": "GLV PROTEXIS PI NO LTX PF SURG 7.0", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "SD7F68SD6", "Date": "SD7F68SD6", "Categories": [{ "Name": "Min Price", "Value": 240 },{ "Name": "Max Price", "Value": 588 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 250}]},
-		{"Item": "GLOVE SURG ESTEEM PF 8.0", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "3KL24J3KL", "Date": "3KL24J3KL", "Categories": [{ "Name": "Min Price", "Value": 200 },{ "Name": "Max Price", "Value": 255 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 230}]},
-		{"Item": "GLOVE, SURGN SYNTH PWDR FREE SZ 8-1/2", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "98ZX7C9ZX", "Date": "98ZX7C9ZX", "Categories": [{ "Name": "Min Price", "Value": 400 },{ "Name": "Max Price", "Value": 420 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 400}]},
-		{"Item": "GLOVE, SURGN SYNTH PWDR FREE SZ 6", "Manufacturer": "CARDINAL HEALTH INC", "IDManufacturer": "89ZX79C98", "Date": "89ZX79C98", "Categories": [{ "Name": "Min Price", "Value": 340 },{ "Name": "Max Price", "Value": 555 }], "LineCategory": [{ "Name": "Benchmark Price", "Value": 350}]}]
+		"Data": [
+			{
+				"Item": "GLOVE, SUGN SYNTH PWDR FREE SZ 7-1/2",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "78236JHG2",
+				"Date": "78236JHG2",
+				"Min_price": 500,
+				"Max_price": 550,
+				"Benchmark_price": 500,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 1.21,
+					  "Purchase_price": 500,
+					  "Purchase_quantity": 142
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 2.21,
+					  "Purchase_price": 550,
+					  "Purchase_quantity": 215
+					}
+				]
+			},
+			{
+				"Item": "GLOVE  7.5 PROTEXIS",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "SDS7DSF67",
+				"Date": "SDS7DSF67",
+				"Min_price" : 300,
+				"Max_price" : 350,
+				"Benchmark_price": 321,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 1.21,
+					  "Purchase_price": 300,
+					  "Purchase_quantity": 356
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 2.21,
+					  "Purchase_price": 350,
+					  "Purchase_quantity": 112
+					}
+				]
+			},
+			{
+				"Item": "GLV PROTEXIS PI NO LTX PF SURG 7.0",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "SD7F68SD6",
+				"Date": "SD7F68SD6",
+				"Min_price" : 240,
+				"Max_price" : 588,
+				"Benchmark_price": 250,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 1.21,
+					  "Purchase_price": 240,
+					  "Purchase_quantity": 311
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 2.21,
+					  "Purchase_price": 588,
+					  "Purchase_quantity": 298
+					}
+				]
+			},
+			{
+				"Item": "GLOVE SURG ESTEEM PF 8.0",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "3KL24J3KL",
+				"Date": "3KL24J3KL",
+				"Min_price" : 200,
+				"Max_price" : 255,
+				"Benchmark_price": 230,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 1.21,
+					  "Purchase_price": 200,
+					  "Purchase_quantity": 412
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 2.21,
+					  "Purchase_price": 255,
+					  "Purchase_quantity": 190
+					}
+				]
+			},
+			{
+				"Item": "GLOVE, SURGN SYNTH PWDR FREE SZ 8-1/2",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "98ZX7C9ZX",
+				"Date": "98ZX7C9ZX",
+				"Min_price" : 400,
+				"Max_price" : 420,
+				"Benchmark_price": 400,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 1.21,
+					  "Purchase_price": 400,
+					  "Purchase_quantity": 136
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 2.21,
+					  "Purchase_price": 420,
+					  "Purchase_quantity": 316
+					}
+				]
+			},
+			{
+				"Item": "GLOVE, SURGN SYNTH PWDR FREE SZ 6",
+				"Manufacturer": "CARDINAL HEALTH INC",
+				"IDManufacturer": "89ZX79C98",
+				"Date": "89ZX79C98",
+				"Min_price" : 340,
+				"Max_price" : 555,
+				"Benchmark_price": 350,
+				"Details" : [
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 1.21,
+					  "Purchase_price": 340,
+					  "Purchase_quantity": 417
+					},
+					{
+					  "Date": "Monday, September 26, 2016",
+					  "Cost_savings": 2.21,
+					  "Purchase_price": 550,
+					  "Purchase_quantity": 178
+					}
+				]
+			}
+		]
 	}
 ]

@@ -1,6 +1,4 @@
-d3.json("/dataScatter_test.json", function (error, arrData) {
-
-	if (error) throw error;
+d3.json("/dataScatter_test.json").then(function (arrData) {
 
 	var view_width = $(".container").find('.nameScatterChart').width();
 	var view_height = $(".container").find('.item').height() - 65;
@@ -199,7 +197,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 				var posTooltip = d3.event.pageX + 10;
 				divTooltip.attr("class", "toolTip");
 
-				if ($('.scatterChart#' + $(this).parents(".scatterChart")[0].id).width() / 2 < d3.event.layerX) {
+				if ($('.scatterChart#' + $(this).parents(".scatterChart")[0].id).width() / 2 < d3.event.pageX) {
 					posTooltip = d3.event.pageX - $('.toolTip').width() - 20;
 					divTooltip.attr("class", "toolTip left");
 				}
@@ -353,9 +351,7 @@ d3.json("/dataScatter_test.json", function (error, arrData) {
 			}
 
 	}
-});
-// Back delete duplicate
-$(window).on('load',function () {
+
 	var obj_legendHolder = $(".legendHolder");
 	obj_legendHolder.each(function () {
 		var item = $(this).find('.legend');

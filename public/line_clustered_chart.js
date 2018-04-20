@@ -99,47 +99,7 @@ var divTooltip = d3.select("body")
 	.append("div")
 	.attr("class", "toolTip");
 
-// Back delete duplicate
-$(window).ready(function () {
-
-	var obj_svg = $('body svg');
-	$(obj_svg).each(function () {
-		var item_svg = $(this).find('.wrap_chart');
-		if ($(item_svg).length > 1) {
-			$(item_svg[0]).remove();
-		}
-	});
-
-	var obj_nameBar = $('body .nameChart')
-
-	$(obj_nameBar).each(function () {
-		var item = $(this).find('text');
-		if ($(item).length > 1) {
-			$(item[0]).remove();
-		}
-	});
-
-	if ($('body .toolTip').length > 1) {
-		obj = $('body .toolTip');
-		$(obj[0]).remove();
-	}
-
-	// var obj_legendHolder = $(".legendHolder");
-	// obj_legendHolder.each(function () {
-	// 	var item = $(this).find('.legend');
-	// 	var _w = 0;
-	// 	item.each(function () {
-	// 		_w += $(this).width() + 5;
-	// 	})
-	// 	$(this).css("width", _w + "px")
-	// 	if (_w <= $(this).parent().width()) {
-	// 		$(this).parent().parent().find(".next, .prev").css("opacity", "0");
-	// 	}
-	// });
-});
-
-d3.json("/dataGroup.json", function (error, arrData) {
-	if (error) throw error;
+d3.json("/dataGroup.json").then(function (arrData) {
 	var view_width = $(".container").find('.nameChart').width();
 	var view_height = $(".container").find('.item').height() - 65;
 	// Config View SVG

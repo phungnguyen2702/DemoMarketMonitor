@@ -237,14 +237,12 @@ body {
     padding-right: 5px;
     .legend {
         text-overflow: ellipsis;
-        white-space: pre;
         fill: rgb(119, 119, 119) !important;
         font-family: "Segoe UI", helvetica, arial, sans-serif;
         font-size: 14px;
         padding-left: 1px;
         padding-right: 4px;
         display: inline-block;
-        max-width: 150px ;
         .textLegend {
             line-height: 22px;
         }
@@ -252,8 +250,8 @@ body {
             float: left;
         }
         svg {
-            max-width: 30px;
-            max-height: 30px;
+            width: 20px;
+            height: 20px;
         }
     }
 }
