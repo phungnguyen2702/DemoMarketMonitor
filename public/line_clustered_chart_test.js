@@ -742,15 +742,6 @@ d3.json("/dataGroup.json").then(function (arrData) {
 			.attr("class", function (d, i) {
 				return "legend scatter_" + arrData[_i].ID + "_" + i;
 			})
-			.on("mousemove", function (d) {
-				divTooltip.style("left", d3.event.pageX + 10 + "px");
-				divTooltip.style("top", d3.event.pageY - 25 + "px");
-				divTooltip.style("display", "inline-block");
-				divTooltip.html("<div>" + d + "</div>");
-			})
-			.on("mouseout", function (d) {
-				divTooltip.style("display", "none");
-			})
 			.each(function (d) {
 				//  Legend Symbols
 				var circle = d3.select(this).append("svg")
@@ -769,6 +760,16 @@ d3.json("/dataGroup.json").then(function (arrData) {
 					.text(d.IDManufacturer);
 			});
 		// End Draw ScatterChart
+		d3.selectAll(".textLegend")
+			.on("mousemove", function () {
+				divTooltip.style("left", d3.event.pageX + 10 + "px");
+				divTooltip.style("top", d3.event.pageY - 25 + "px");
+				divTooltip.style("display", "inline-block");
+				divTooltip.html("<div>" + this.textContent + "</div>");
+			})
+			.on("mouseout", function () {
+				divTooltip.style("display", "none");
+			})
 	}
 	var obj_legendHolder = $(".legendHolder");
 	obj_legendHolder.each(function () {
